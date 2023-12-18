@@ -9,6 +9,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 
@@ -64,6 +65,7 @@ const NewStudentsAbout = () => {
         Course: user.Course,
         PrefferedTime: "6/23/23",
         date: "date",
+        created: created,
       });
       const theRef = doc(db, "courses", user.Course);
 
@@ -72,7 +74,7 @@ const NewStudentsAbout = () => {
         {
           students: arrayUnion({ name: user.name }),
         },
-        { merge: true }
+        { merge: true },
       );
 
       // Add a new document in collection "cities"
@@ -117,9 +119,9 @@ const NewStudentsAbout = () => {
       //   Students: arrayUnion(user.name),
       // });
 
-      // await updateDoc(doc(db, "new-students", params.newId), {
-      //   created: true,
-      // });
+      await updateDoc(doc(db, "new-students", params.newId), {
+        created: true,
+      });
 
       setLoading(false);
     } else {
@@ -139,33 +141,33 @@ const NewStudentsAbout = () => {
         "loading ..."
       ) : (
         <>
-          <div className="w-full h-[100vh] border">
+          <div className="h-[100vh] w-full border">
             <div className="about grid grid-cols-3 justify-items-center">
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>Ism Familiya: {user.name}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>tanglangan kurs: {user.Course}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>email: {user.Email}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>nomer: {user.Mobile}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>yosh: {user.age}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>time: {user.PrefferedTime}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>cnic: {user.cninc}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>otasining ismi: {user.fatherName}</h1>
               </div>
-              <div className="text-start border  w-[400px] h-[80px] flex justify-center items-center pl-3 shadow-md m-5 text-[16px]">
+              <div className="m-5 flex  h-[80px] w-[400px] items-center justify-center border pl-3 text-start text-[16px] shadow-md">
                 <h1>
                   action:{" "}
                   {user.created
@@ -174,10 +176,10 @@ const NewStudentsAbout = () => {
                 </h1>
               </div>
             </div>
-            <div className="flex justify-end items-center m-14">
+            <div className="m-14 flex items-center justify-end">
               <button
                 onClick={() => toStudentsSend()}
-                className="border p-3 w-[150px] rounded-md shadow-xl active:scale-[0.9]"
+                className="w-[150px] rounded-md border p-3 shadow-xl active:scale-[0.9]"
               >
                 {loading ? "loading ..." : "kursga qabul qilish"}
               </button>
