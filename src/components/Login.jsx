@@ -13,7 +13,7 @@ export const Login = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        navigate(uid ? this : "login");
+        navigate(uid !== "login");
       } else {
         // ...
       }
