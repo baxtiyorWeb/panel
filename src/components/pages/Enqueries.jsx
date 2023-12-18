@@ -52,14 +52,14 @@ const Enqueries = () => {
             marginTop: "10px",
           }}
         >
-          <h2 className={"dark:text-[#96a2b4] text-[25px]"}>Enquiries</h2>
+          <h2 className={"text-[25px] dark:text-[#96a2b4]"}>Enquiries</h2>
         </div>
         <div className="fruit-user dark:bg-[#353C48]">
           <Link to={"#"}>Dashboard</Link>/<Link to={"#"}>Dashboard</Link>/
           <Link to={"#"}>Home</Link>
         </div>
       </div>
-      <div className="chart-progress dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal">
+      <div className="chart-progress font-normal text-[#398dc9] dark:bg-[#353C48] dark:text-[#EEE8CC]">
         <div className="add-link">
           <h1 className="dark:text-[#fff]">Enquiries</h1>
           <Link to="/layout/addform">add enquirie</Link>
@@ -93,7 +93,7 @@ const Enqueries = () => {
             <input
               type="text"
               onChange={(e) => setSearch(e.target.value)}
-              className={"dark:bg-[#3B4452] dark:border border border-cyan-600"}
+              className={"border border-cyan-600 dark:border dark:bg-[#3B4452]"}
             />
           </div>
         </div>
@@ -101,29 +101,15 @@ const Enqueries = () => {
         <div id="demo">
           <div>
             <div className="table-responsive-vertical shadow-z-1">
-              {userss.user ? (
-                <Tables
-                  search={search}
-                  setSearch={setSearch}
-                  users={getUsers(page, limit)}
-                />
-              ) : (
-                <div className={"flex justify-center items-center mb-5"}>
-                  <Button
-                    onClick={() => navigate("/login")}
-                    className={
-                      "w-[130px] h-[40px] dark:bg-[#3B4452] dark:text-[#ccc]"
-                    }
-                  >
-                    login
-                  </Button>
-                </div>
-              )}
+              <Tables
+                search={search}
+                setSearch={setSearch}
+                users={getUsers(page, limit)}
+              />
             </div>
           </div>
         </div>
-
-        <div className="flex justify-center ic">
+        <div className="ic flex justify-center">
           <Pagination
             totalPage={totalPage}
             page={page}

@@ -21,7 +21,12 @@ export const useLogin = () => {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
             const uid = user.uid;
-            navigate(uid !== "/login");
+
+            if (!user) {
+              navigate("/login");
+            } else {
+              navigate("/");
+            }
             setEmail("");
             setPassword("");
 

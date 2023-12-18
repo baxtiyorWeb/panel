@@ -20,6 +20,7 @@ export const UserAbout = () => {
   useEffect(() => {
     try {
       setLoading(true);
+
       if (user !== null) {
         // The user object has basic properties such as display name, email, etc.\
         onAuthStateChanged(auth, (user) => {
@@ -30,7 +31,7 @@ export const UserAbout = () => {
       } else {
         // User is signed out
         // ...
-        navigate("/login");
+        // navigate("/login");
       }
     } catch (error) {
       setError(error.message);
@@ -49,18 +50,18 @@ export const UserAbout = () => {
               <UseTheme />
             </div>
             <div
-              className="desktop-icon dark:focus:bg-[#3B4452]
-        rounded-[100%]
+              className="desktop-icon rounded-[100%]
         dark:hover:bg-[#3B4452]
+        dark:focus:bg-[#3B4452]
         dark:focus:ring-offset-1
         dark:active:bg-[#353C48]"
             >
               <FaDesktop />
             </div>
             <div
-              className="envelope-icon dark:focus:bg-[#3B4452]
-        rounded-[100%]
+              className="envelope-icon rounded-[100%]
         dark:hover:bg-[#3B4452]
+        dark:focus:bg-[#3B4452]
         dark:focus:ring-offset-1
         dark:active:bg-[#353C48]"
             >
@@ -74,7 +75,7 @@ export const UserAbout = () => {
                 }
                 alt=""
                 className={
-                  "w-[30px] h-[30px] rounded-[100%] cursor-pointer bg-transparent"
+                  "h-[30px] w-[30px] cursor-pointer rounded-[100%] bg-transparent"
                 }
                 onClick={() => (user ? setOpen(!open) : navigate("/login"))}
               />
@@ -82,19 +83,19 @@ export const UserAbout = () => {
               {open && (
                 <div
                   className={
-                    "w-[224px] h-[304px] absolute top-[55px] right-[5px] z-10 dark:bg-[#374151] bg-[#fff] rounded-5 shadow-lg "
+                    "rounded-5 absolute right-[5px] top-[55px] z-10 h-[304px] w-[224px] bg-[#fff] shadow-lg dark:bg-[#374151] "
                   }
                 >
                   <p
                     className={
-                      "text-[18px] w-full text-center mt-[5px] cursor-pointer border-b border-b-[gray]"
+                      "mt-[5px] w-full cursor-pointer border-b border-b-[gray] text-center text-[18px]"
                     }
                   >
                     {user.email}
                   </p>
                   <Link>
-                    <span className="flex justify-start items-center">
-                      <LiaCogSolid className="mr-3 m-3" />
+                    <span className="flex items-center justify-start">
+                      <LiaCogSolid className="m-3 mr-3" />
                       settings
                     </span>
                   </Link>
