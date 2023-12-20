@@ -163,6 +163,21 @@ export const SideBarLinks = ({ dark }) => {
             </div>
           </SubMenu>
         )}
+        <SubMenu
+          label="O'qituvchilar"
+          icon={<BiSolidPencil />}
+          className={"menus-style dark:text-cyan-50   hover:dark:bg-[#2A303A]"}
+        >
+          <MenuItem
+            icon={<FaGraduationCap />}
+            className={
+              "menus-style dark:bg-[#3B4452] dark:text-cyan-50   hover:dark:bg-[#2A303A]"
+            }
+            component={<NavLink to={"/teachers/teachers/"}></NavLink>}
+          >
+            O{"'"}qituvchilar
+          </MenuItem>
+        </SubMenu>
         <MenuItem
           icon={<FaGraduationCap />}
           className={"menus-style dark:text-cyan-50   hover:dark:bg-[#2A303A]"}

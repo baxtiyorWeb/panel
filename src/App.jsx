@@ -50,6 +50,9 @@ import ViewStudents from "./components/pages/students/viewStudents.jsx";
 import Groupslayout from "./components/layout/groupslayout.jsx";
 import "../src/response.css";
 import Groups from "./components/pages/groups/Groups.jsx";
+import TeachersLayout from "./components/layout/TeachersLayout.jsx";
+import Teachers from "./components/pages/teachers/teachers.jsx";
+import AddTeachers from "./components/pages/addpages/AddTeachers.jsx";
 
 const App = () => {
   return (
@@ -86,6 +89,10 @@ const App = () => {
           <Route path="/batches/batch" element={<Batches />} />
           <Route path="/batches/addBatch" element={<AddBatch />} />
           <Route path="/batches/batch-form/:userId" element={<BatchForm />} />
+        </Route>
+        <Route path="teachers" element={<TeachersLayout />}>
+          <Route path="/teachers/teachers/" element={<Teachers />} />
+          <Route path="/teachers/teachers-form" element={<AddTeachers />} />
         </Route>
         <Route path="/courses" element={<CoursesLayout />}>
           <Route path="/courses/courses" element={<Courses />} />
