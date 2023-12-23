@@ -81,7 +81,7 @@ const Tables = ({ search }) => {
   return (
     <>
       {loading ? (
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           {" "}
           <ClipLoader
             loading={loading}
@@ -104,7 +104,7 @@ const Tables = ({ search }) => {
               empty data
             </h2>
           ) : (
-            <table id="table" className="table table-hover ">
+            <table id="table" className="table-hover table ">
               {open ? (
                 <UserModal open={open} setOpen={setOpen} userId={userId}>
                   {loading ? (
@@ -112,7 +112,7 @@ const Tables = ({ search }) => {
                   ) : (
                     <>
                       <button onClick={() => setOpen(!open)}>
-                        <MdOutlineClose className="text-[25px] text-white absolute right-1 top-1" />
+                        <MdOutlineClose className="absolute right-1 top-1 text-[25px] text-white" />
                       </button>
                       <div>
                         <h1>{user.name} </h1>
@@ -145,7 +145,7 @@ const Tables = ({ search }) => {
                       <tr
                         key={item.id}
                         className={
-                          "even:dark:bg-[#313843]  even:hover:bg-[#E7E9EB] dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal even-class dark:hover:bg-[#353C48]"
+                          "even-class  font-normal text-[#398dc9] even:hover:bg-[#E7E9EB] dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
                         }
                       >
                         <>

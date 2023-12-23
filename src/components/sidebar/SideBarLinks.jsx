@@ -43,10 +43,10 @@ export const SideBarLinks = ({ dark }) => {
         zIndex: "99999",
         height: "100vh",
       }}
-      width={"15%"}
+      width={"16%"}
     >
       <Menu
-        className={"fixed h-[100vh] w-[15%] dark:bg-[#353C48] "}
+        className={"fixed h-[100vh] w-[16%] dark:bg-[#353C48] "}
         style={{ overflow: "scroll" }}
       >
         <div className={"mb-24"}></div>

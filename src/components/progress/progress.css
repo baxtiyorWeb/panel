@@ -125,7 +125,7 @@
   padding: 1rem;
   vertical-align: top;
   border-top: 0;
-  font-size: 17px;
+  font-size: 15px;
   font-family: "Nunito Sans", sans-serif;
 }
 
@@ -206,6 +206,9 @@ tbody tr {
   cursor: pointer;
 }
 
+.group-name {
+  color: rgb(145, 229, 250);
+}
 .icons:hover {
   border-radius: 5px;
   background: #b6b6b683;

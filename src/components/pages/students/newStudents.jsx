@@ -129,6 +129,7 @@ export const NewStudents = () => {
                         <th>Mobile</th>
                         <th>CNIC</th>
                         <th>Course</th>
+                        <th>Group</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -153,7 +154,8 @@ export const NewStudents = () => {
                               <td>{item.Email}</td>
                               <td>{item.Mobile}</td>
                               <td>{item.cninc}</td>
-                              <td>{item.Course}</td>
+                              <td className="">{item.Course}</td>
+                              <td>{item.group}</td>
                               <td className={"td_flex"}>
                                 <span className="icons">
                                   <Link

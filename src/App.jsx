@@ -53,6 +53,8 @@ import Groups from "./components/pages/groups/Groups.jsx";
 import TeachersLayout from "./components/layout/TeachersLayout.jsx";
 import Teachers from "./components/pages/teachers/teachers.jsx";
 import AddTeachers from "./components/pages/addpages/AddTeachers.jsx";
+import AddGroup from "./components/pages/addpages/AddGroup.jsx";
+import AddStudentInGroup from "./components/pages/addpages/AddStudentInGroup.jsx";
 
 const App = () => {
   return (
@@ -136,7 +138,12 @@ const App = () => {
           <Route path="/websettings/users" element={<WebSettingsUsers />} />
         </Route>
         <Route path="/groups" element={<Groupslayout />}>
+          <Route path="/groups/groups-form/" element={<AddGroup />} />
           <Route path="/groups/groups/:id" element={<Groups />} />
+          <Route
+            path="/groups/add-student/:id"
+            element={<AddStudentInGroup />}
+          />
         </Route>
       </Route>
     </Routes>

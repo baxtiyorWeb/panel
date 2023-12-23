@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { db } from "../../../setup/firebase/firebase";
 import { ClipLoader } from "react-spinners";
 // import { Loading } from "../../Loading";
@@ -14,7 +14,7 @@ const Groups = () => {
     const getAllData = async () => {
       const docRef = doc(db, "groups", param.id);
       const targetDoc = await getDoc(docRef);
-      console.log(targetDoc.data().students);
+      console.log(targetDoc.data()?.students);
       return { user: setUser(targetDoc.data()) };
     };
 
@@ -26,9 +26,25 @@ const Groups = () => {
 
   return (
     <div>
-      <h1>{param.id}</h1>
+      <div className="flex items-center justify-between ">
+        <h1 className="text-xl">{param.id}</h1>
+        <div>
+          <Link
+            to={"/groups/groups-form/"}
+            className="rounded-md border border-gray-500 px-5 py-3"
+          >
+            Gurux qo{"'"}shish
+          </Link>
+          <Link
+            to={`/groups/add-student/${param.id}`}
+            className="my-3 ml-3 mr-2 rounded-md border border-gray-500 px-5 py-3"
+          >
+            o{"'"}quvchi kiritish
+          </Link>
+        </div>
+      </div>
       {loading ? (
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           {" "}
           <ClipLoader
             loading={loading}
@@ -54,7 +70,7 @@ const Groups = () => {
             "loading"
           ) : (
             <div>
-              <table id="table" className="table table-hover">
+              <table id="table" className="table-hover table">
                 <thead>
                   <tr>
                     <th>id</th>
@@ -72,7 +88,7 @@ const Groups = () => {
                   {user.students?.map((item, index) => (
                     <tr
                       key={item.name}
-                      className="even:dark:bg-[#313843]  even:hover:bg-[#E7E9EB] dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal even-class dark:hover:bg-[#353C48]"
+                      className="even-class  font-normal text-[#398dc9] even:hover:bg-[#E7E9EB] dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
                     >
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
@@ -80,8 +96,8 @@ const Groups = () => {
                       <td>{item.age}</td>
                       <td>{item.Mobile}</td>
                       <td>{item.cninc}</td>
-                      <td>{item.date[0]}</td>
-                      <td>{item.date[1]}</td>
+                      <td>{item.date}</td>
+                      <td>{item.date1}</td>
                       <td>{item.semester}</td>
                     </tr>
                   ))}

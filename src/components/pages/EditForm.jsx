@@ -78,7 +78,7 @@ export const EditForm = () => {
   return (
     <Container>
       <div>
-        <div className="chart-progress dark:bg-[#353C48] text-[#34395e] dark:text-[#EEE8CC] font-normal relative">
+        <div className="chart-progress relative font-normal text-[#34395e] dark:bg-[#353C48] dark:text-[#EEE8CC]">
           <div className="add-link">
             <button>delete</button>
             <h1 className="font-normal">Enquiry Form</h1>
@@ -90,7 +90,7 @@ export const EditForm = () => {
               <input
                 type="text"
                 placeholder="name"
-                className="dark:bg-[#353C48] dark:border"
+                className="dark:border dark:bg-[#353C48]"
                 id="newNotes"
                 onChange={(e) => setName(e.target.value)}
                 value={name || ""}
@@ -101,7 +101,7 @@ export const EditForm = () => {
               <input
                 type="text"
                 placeholder="Father Name"
-                className="dark:bg-[#353C48] dark:border"
+                className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setFatherName(e.target.value)}
                 value={fatherName || ""}
               />
@@ -111,7 +111,7 @@ export const EditForm = () => {
               <input
                 type="date"
                 placeholder="name"
-                className="dark:bg-[#353C48] dark:border"
+                className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setDateBirth(e.target.value)}
                 value={DateBirth || ""}
               />
@@ -121,7 +121,7 @@ export const EditForm = () => {
               <input
                 type="text"
                 placeholder="abc@gmail.com"
-                className="dark:bg-[#353C48] dark:border"
+                className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setEmail(e.target.value)}
                 value={Email || ""}
               />
@@ -131,7 +131,7 @@ export const EditForm = () => {
               <input
                 type="text"
                 placeholder="33100-0000000-0"
-                className="dark:bg-[#353C48] dark:border"
+                className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setCninc(e.target.value)}
                 value={cninc || ""}
               />
@@ -141,7 +141,7 @@ export const EditForm = () => {
               <input
                 type="text"
                 placeholder="+998 xx xxx xx xx"
-                className="dark:bg-[#353C48] dark:border"
+                className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setMobile(e.target.value)}
                 value={Mobile || ""}
               />
@@ -152,10 +152,10 @@ export const EditForm = () => {
                 <input
                   type="radio"
                   id="Male"
-                  className="w-1 h-1 !not-sr-only"
+                  className="!not-sr-only h-1 w-1"
                   name="gender"
                 />
-                <label htmlFor="Male" className="mr-5 ml-1">
+                <label htmlFor="Male" className="ml-1 mr-5">
                   Male
                 </label>
               </div>
@@ -163,10 +163,10 @@ export const EditForm = () => {
                 <input
                   type="radio"
                   id="Female"
-                  className="w-1 h-1 !not-sr-only"
+                  className="!not-sr-only h-1 w-1"
                   name="gender"
                 />
-                <label htmlFor="Female" className="mr-5 ml-1">
+                <label htmlFor="Female" className="ml-1 mr-5">
                   Female
                 </label>
               </div>
@@ -184,7 +184,7 @@ export const EditForm = () => {
               <select
                 name=""
                 id="selection"
-                className="dark:bg-[#353C48] dark:border dark:border-[1px_solid_green] cursor-pointer dark:text-[#fff] text-[16px] p-3 "
+                className="cursor-pointer p-3 text-[16px] dark:border dark:border-[1px_solid_green] dark:bg-[#353C48] dark:text-[#fff] "
               >
                 <option value="Other" disabled>
                   Select department
@@ -208,7 +208,7 @@ export const EditForm = () => {
               <select
                 name=""
                 id="selection"
-                className="dark:bg-[#353C48] dark:border dark:border-[1px_solid_green] cursor-pointer dark:text-[#fff] text-[16px] p-3 "
+                className="cursor-pointer p-3 text-[16px] dark:border dark:border-[1px_solid_green] dark:bg-[#353C48] dark:text-[#fff] "
               >
                 <option value="Other" disabled>
                   select semester
@@ -233,7 +233,7 @@ export const EditForm = () => {
               <select
                 name=""
                 id="selection"
-                className="dark:bg-[#353C48] dark:border dark:border-[1px_solid_green]  dark:text-[#fff] text-[16px] p-3 "
+                className="p-3 text-[16px] dark:border  dark:border-[1px_solid_green] dark:bg-[#353C48] dark:text-[#fff] "
                 onChange={(e) => setCourse(e.target.value)}
                 value={Course}
               >
