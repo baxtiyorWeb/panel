@@ -69,13 +69,13 @@ const Profile = () => {
               <div className="user ">
                 <img src={data.img || "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"} alt="" />
                 <div className={"overflow-hidden"}>
-                  {loading ? <Loading loading={loading} /> : <input
+                  <input
                     type="file"
                     id="user-img"
                     className={"input-file"}
                     onChange={(e) => useEdit.setFile(e.target.files[0])}
                     disabled={useEdit.progress !== null && useEdit.progress < 100}
-                  />}
+                  />
                 </div>
 
                 <label
@@ -257,15 +257,11 @@ const Profile = () => {
                               className="icons"
                             // onClick={() => likeHandleTicket(item.id)}
                             >
-                              {loading && data.id ? (
-                                <LiaSpinnerSolid />
-                              ) : (
-                                <BiLike
-                                  style={{
-                                    color: !data.like ? "white" : "green",
-                                  }}
-                                />
-                              )}
+                              <BiLike
+                                style={{
+                                  color: !data.like ? "white" : "green",
+                                }}
+                              />
                             </span>
                             <span
                               className="icons"
@@ -282,10 +278,10 @@ const Profile = () => {
                   )}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </Container>
+            </div >
+          </div >
+        </div >
+      </Container >
     </>
   );
 };
