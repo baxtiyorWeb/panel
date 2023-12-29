@@ -86,7 +86,7 @@ const Groups = () => {
         </div>
       ) : (
         <div>
-          {user.students.length === 0 ? (
+          {user?.students?.length === 0 ? (
             <h2
               style={{
                 textAlign: "center",
