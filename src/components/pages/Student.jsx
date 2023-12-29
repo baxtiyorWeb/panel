@@ -98,7 +98,6 @@ export const Student = () => {
   //   return <>epmty data</>
   // }
   const userss = useGetUser();
-  console.log(students.length === 0);
   return (
     <div className={"dark:bg-[#353C48]"}>
       <div className="chart-progress dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal">
@@ -131,7 +130,7 @@ export const Student = () => {
               <Loading loading={loading} />
             ) : (
               <div className="table-responsive-vertical shadow-z-1">
-                {userss.user ? (
+                {userss ? (
                   students.length === 0 ? (
                     <h2
                       style={{
@@ -158,6 +157,7 @@ export const Student = () => {
                       <thead>
                         <tr>
                           <th>#</th>
+                          <th>Avatar</th>
                           <th>Name</th>
                           <th>Reg.No</th>
                           <th>Email</th>
@@ -181,6 +181,9 @@ export const Student = () => {
                                   "even:dark:bg-[#313843] even-class dark:hover:bg-[#353C48]"
                                 }>
                                 <td>{index}</td>
+                                <td >
+                                  <img className="w-[50px] h-[50px] rounded-full opacity-80 border  border-slate-400" src={`${item.img || "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"}`} alt="" />
+                                </td>
                                 <td>
                                   <Link to={`/profile/${item.id}`}>
                                     {item.name}

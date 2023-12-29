@@ -148,6 +148,7 @@ const Tables = ({ search }) => {
                       >
                         <>
                           <td>{index}</td>
+
                           <td
                             className="cursor-pointer select-none"
                             onClick={() => openModal(item.id)}

@@ -2,24 +2,17 @@ import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, storage } from "../setup/firebase/firebase";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { uid } from "uid";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const useDeleteProfile = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [editetId, setEditedId] = useState();
-  // const [imageUpload, setImageUpload] = useState();
   const [userImg, setUserImg] = useState();
   const [value, setValue] = useState("");
   const [file, setFile] = useState("");
-  const uiid = uid();
+  const [progress, setProgress] = useState();
+  const [loader, setLoader] = useState(false);
 
   const [edit, setEdit] = useState({
     type: "time",
@@ -42,12 +35,14 @@ const useDeleteProfile = () => {
     const getAllData = async () => {
       const docRef = doc(db, "students", params.id);
       const targetDoc = await getDoc(docRef);
+      console.log(targetDoc.data());
       return { user: setEdit(targetDoc.data()) };
     };
-    setEdit(false);
 
     getAllData();
-  }, [params, loading, editetId]);
+    setEdit(false);
+    names();
+  }, []);
   const names = async () => {
     if (value !== "") {
       if (value === edit.name) {
@@ -62,7 +57,6 @@ const useDeleteProfile = () => {
       }
     }
   };
-  names();
 
   const handleDeletingTicket = async () => {
     await deleteDoc(doc(db, "students", params.id));
@@ -83,24 +77,17 @@ const useDeleteProfile = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const upLoadFile = () => {
       const name = new Date().getTime() + file.name;
-      console.log(name);
       const storageRef = ref(storage, `user-images/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-
-      // Register three observers:
-      // 1. 'state_changed' observer, called any time the state changes
-      // 2. Error observer, called on failure
-      // 3. Completion observer, called on successful completion
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
+          setProgress(progress);
           switch (snapshot.state) {
             case "paused":
               console.log("Upload is paused");
@@ -114,29 +101,32 @@ const useDeleteProfile = () => {
           // Handle unsuccessful uploads
         },
         () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
             setUserImg(downloadURL);
-
-            file && setImages();
+            updateDoc(doc(db, "students", params.id), {
+              img: downloadURL,
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
           });
-        }
+        },
       );
     };
-    const setImages = async () => {
-      if (file !== undefined) {
-        setLoading(true);
-        await updateDoc(doc(db, "students", params.id), {
-          image: userImg,
-        });
-        setLoading(false);
-      }
-    };
+
+    // setImages();
+
     file && upLoadFile();
-    file && setImages();
-  }, [params.id, userImg]);
+  }, [file]);
+
+  // const setImages = async () => {
+  //   setLoading(true);
+  //   await updateDoc(doc(db, "students", params.id), {
+  //     image: userImg,
+  //   });
+  //   setLoading(false);
+  // };
 
   // const editFunction = async (userId) => {
   //   if (imageUpload !== undefined) {
@@ -153,11 +143,13 @@ const useDeleteProfile = () => {
     handleDeletingTicket,
     userImgUpload,
     userImg,
-    // setUserImg,
+    // setImages,
     file,
     setFile,
     loading,
     setValue,
+    progress,
+    loader,
   };
 };
 
