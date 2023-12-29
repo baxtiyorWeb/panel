@@ -5,12 +5,8 @@ import { getLength, getUsers } from "../progress/data";
 import "./Enquiries.css";
 import Pagination from "../pagination/Pagination";
 import Tables from "../tables/Tables";
-import { useGetUser } from "../../hooks/useGetUser.js";
-import { Button } from "antd";
 
 const Enqueries = () => {
-  const userss = useGetUser();
-  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [page, setpage] = useState(1);
   const [limit, setlimit] = useState(5);
@@ -43,13 +39,12 @@ const Enqueries = () => {
     emptyPage = page;
   }
 
-  return (
-    <Container>
+  return (<Container>
       <div className="dashboard-user">
         <div
           className="fruit"
           style={{
-            marginTop: "10px",
+            marginTop: "10px"
           }}
         >
           <h2 className={"text-[25px] dark:text-[#96a2b4]"}>Enquiries</h2>
@@ -119,8 +114,7 @@ const Enqueries = () => {
           />
         </div>
       </div>
-    </Container>
-  );
+    </Container>);
 };
 
 export default Enqueries;

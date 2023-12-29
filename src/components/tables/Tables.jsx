@@ -47,7 +47,7 @@ const Tables = ({ search }) => {
       setUser(docs);
       setLoading(false);
     })();
-  }, [deleteId, toggle, activeId]);
+  }, [deleteId, activeId]);
 
   //  delete user
   const handleDeletingTicket = async (id) => {
@@ -62,7 +62,7 @@ const Tables = ({ search }) => {
   const emailStatus = async (id) => {
     setSearchParams({ userEditId: id });
     setTimeout(() => {
-      setToggle(toggle ? false && notifyNoActive() : true && notifyActive());
+      setToggle(toggle ? notifyNoActive() && false : notifyActive() && true);
     }, 100);
     await updateDoc(doc(db, "users", id), {
       active: toggle,
@@ -80,6 +80,23 @@ const Tables = ({ search }) => {
   // one user getData function
   return (
     <>
+      {open ? (
+        <UserModal open={open} setOpen={setOpen} userId={userId}>
+          {loading ? (
+            `Loading`
+          ) : (
+            <>
+              <button onClick={() => setOpen(!open)}>
+                <MdOutlineClose className="absolute right-1 top-1 text-[25px] text-white" />
+              </button>
+              <div>
+                <h1>{user.name} </h1>
+              </div>
+            </>
+          )}
+        </UserModal>
+      ) : false}
+      {open ? <Overlay open={open} setOpen={setOpen} /> : false}
       {loading ? (
         <div className="flex items-center justify-center">
           {" "}
@@ -105,25 +122,6 @@ const Tables = ({ search }) => {
             </h2>
           ) : (
             <table id="table" className="table-hover table ">
-              {open ? (
-                <UserModal open={open} setOpen={setOpen} userId={userId}>
-                  {loading ? (
-                    `Loading`
-                  ) : (
-                    <>
-                      <button onClick={() => setOpen(!open)}>
-                        <MdOutlineClose className="absolute right-1 top-1 text-[25px] text-white" />
-                      </button>
-                      <div>
-                        <h1>{user.name} </h1>
-                      </div>
-                    </>
-                  )}
-                </UserModal>
-              ) : (
-                false
-              )}
-              {open ? <Overlay open={open} setOpen={setOpen} /> : false}
               <thead>
                 <tr>
                   <th>id</th>
@@ -182,7 +180,7 @@ const Tables = ({ search }) => {
                               {/* */}
                             </span>
                           </td>
-                          <td className={"td_flex"}>
+                          <td className="td_flex">
                             <span className="icons">
                               <Link to={`/users-form/${item.id}`}>
                                 <LiaEdit />

@@ -6,7 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { LiaCheckSolid } from "react-icons/lia";
 import { Loading } from "../../Loading.jsx";
 import Pagination from "../../pagination/Pagination.jsx";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../../../setup/firebase/firebase.jsx";
 
 export const NewStudents = () => {
@@ -14,6 +14,7 @@ export const NewStudents = () => {
   const [search, setSearch] = useState("");
   const [newId, setNewId] = useState();
   const [detail, setDetail] = useState();
+  const [userId, setUserId] = useState();
 
   const [page, setpage] = useState(1);
 
@@ -68,6 +69,14 @@ export const NewStudents = () => {
       navigate(`/details/${detail}`);
     }
   };
+
+  const deleteNewStudent = async (id) => {
+    setLoading(true)
+    const newStudentRef =  doc(db, "new-students", id)
+
+    await deleteDoc(newStudentRef)
+    setLoading(false)
+  }
   return (
     <>
       <div className="chart-progress  font-normal text-[#398dc9] dark:bg-[#353C48] dark:text-[#EEE8CC]">
@@ -165,7 +174,7 @@ export const NewStudents = () => {
                                   </Link>
                                 </span>
 
-                                <span className="icons">
+                                <span className="icons" onClick={() => deleteNewStudent(item.id)}>
                                   <MdDelete />
                                 </span>
                                 <span

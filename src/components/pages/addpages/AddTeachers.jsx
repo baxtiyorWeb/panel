@@ -22,7 +22,6 @@ const AddTeachers = () => {
       cnic: form.cnic,
       mobile: form.mobile,
       department: form.department,
-      semester: form.semester,
       courses: form.courses,
     });
     if (res) {
@@ -135,17 +134,25 @@ const AddTeachers = () => {
             onChange={(e) => setForm({ ...form, courses: e.target.value })}
           >
             <option> </option>
-            <option>Modern Web App Development</option>
-            <option>Android Application Development</option>
-            <option>Advanced Graphics Designing</option>
-            <option>Microsoft Office Professional</option>
-            <option>Adobe Illustrator</option>
-            <option>Testing MT 2</option>
-            <option>Bootcamp</option>
-            <option>Android Test</option>
-            <option>digital marketing</option>
-            <option>Front end</option>
-            <option>Back end</option>
+            <option value="Modern Web App Development">
+              Modern Web App Development
+            </option>
+            <option value={"Android Application Development"}>
+              Android Application Development
+            </option>
+            <option value={"Advanced Graphics Designing"}>
+              Advanced Graphics Designing
+            </option>
+            <option value={"Microsoft Office Professional"}>
+              Microsoft Office Professional
+            </option>
+            <option value={"Adobe Illustrator"}>Adobe Illustrator</option>
+            <option value={"Testing MT 2"}>Testing MT 2</option>
+            <option value={"Bootcamp"}>Bootcamp</option>
+            <option value={"Android Test"}>Android Test</option>
+            <option value={"digital marketing"}>digital marketing</option>
+            <option value={"Front end"}>Front end</option>
+            <option value={"Back end"}>Back end</option>
           </select>
         </div>
       </div>

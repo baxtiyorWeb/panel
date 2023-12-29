@@ -36,12 +36,11 @@ const UserModal = ({ open, setOpen, userId }) => {
         });
       }
     });
-    console.log(message);
-  }, [message]);
+  }, []);
 
   return (
     <>
-      <div className="fixed w-[50%] h-[50vh] top-[23%] left-[30%] z-10 bg-[#fff] dark:bg-[#3B4452] rounded-md shadow-2xl text-[#fff]">
+      <div className="fixed w-[50%] h-[50vh] top-[23%] left-[30%] bg-[#fff] dark:bg-[#3B4452] rounded-md shadow-2xl text-[#fff]">
         {loading ? (
           `Loading`
         ) : (

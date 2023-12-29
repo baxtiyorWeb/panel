@@ -55,6 +55,9 @@ import Teachers from "./components/pages/teachers/teachers.jsx";
 import AddTeachers from "./components/pages/addpages/AddTeachers.jsx";
 import AddGroup from "./components/pages/addpages/AddGroup.jsx";
 import AddStudentInGroup from "./components/pages/addpages/AddStudentInGroup.jsx";
+import AddTeacherinGroup from "./components/pages/teachers/addTeacherinGroup.jsx";
+import EditTEachers from "./components/pages/teachers/editTEachers.jsx";
+import GroupsEdit from "./components/pages/groups/groupsEdit.jsx";
 
 const App = () => {
   return (
@@ -95,6 +98,11 @@ const App = () => {
         <Route path="teachers" element={<TeachersLayout />}>
           <Route path="/teachers/teachers/" element={<Teachers />} />
           <Route path="/teachers/teachers-form" element={<AddTeachers />} />
+          <Route path="/teachers/edit-form/:id" element={<EditTEachers />} />
+          <Route
+            path="/teachers/add-group/:id"
+            element={<AddTeacherinGroup />}
+          />
         </Route>
         <Route path="/courses" element={<CoursesLayout />}>
           <Route path="/courses/courses" element={<Courses />} />
@@ -140,6 +148,7 @@ const App = () => {
         <Route path="/groups" element={<Groupslayout />}>
           <Route path="/groups/groups-form/" element={<AddGroup />} />
           <Route path="/groups/groups/:id" element={<Groups />} />
+          <Route path="/groups/groups-edit/:id" element={<GroupsEdit />} />
           <Route
             path="/groups/add-student/:id"
             element={<AddStudentInGroup />}

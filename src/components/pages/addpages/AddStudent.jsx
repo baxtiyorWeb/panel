@@ -23,16 +23,18 @@ const AddStudent = () => {
   async function sendForm() {
     setLoading(true);
     await addDoc(userCollectionRef, {
-      name: name,
-      fatherName: fatherName,
-      Email: Email,
-      cninc: cninc,
-      Mobile: Mobile,
-      Course: Course,
-      PrefferedTime: "",
-      date: date,
-      department: department,
-      semestr: semestr,
+      user:{
+        name: name,
+        fatherName: fatherName,
+        Email: Email,
+        cninc: cninc,
+        Mobile: Mobile,
+        Course: Course,
+        PrefferedTime: "",
+        date: date,
+        department: department,
+        semestr: semestr,
+      }
     });
     setLoading(false);
     navigate("/students/students");

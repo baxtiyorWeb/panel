@@ -13,6 +13,7 @@ import { ClipLoader } from "react-spinners";
 import { FaPlus } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { uid } from "uid";
 
 const AddStudentInGroup = () => {
   const [loading, setLoading] = useState(false);
@@ -80,13 +81,15 @@ const AddStudentInGroup = () => {
           const isStudentExistInGroup = groupData.students.find(
             (student) => student.name === studentData.name,
           );
-
+          const uiid = uid()
           if (!isStudentExistInGroup) {
             // O'quvchi guruhda mavjud emasligi uchun uni qo'shish
             await setDoc(
               groupRef,
+
               {
                 students: arrayUnion({
+                  id: uiid,
                   name: name,
                   Course: Course,
                   age: age,
@@ -199,7 +202,7 @@ const AddStudentInGroup = () => {
                       <td>{item.date[1]}</td>
                       <td>{item.semester}</td>
                       <td className="group-name">
-                        {loading ? "loading..." : item.group}
+                        {item.group}
                       </td>
                       <td className="td_flex">
                         <span
