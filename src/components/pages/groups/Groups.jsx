@@ -6,6 +6,7 @@ import { ClipLoader } from "react-spinners";
 import { MdDelete } from "react-icons/md"
 import { LiaEdit } from "react-icons/lia"
 import { toast } from "react-toastify";
+import { Loading } from "../../Loading";
 const Groups = () => {
   const param = useParams();
   const [loading, setLoading] = useState(false);
@@ -76,13 +77,7 @@ const Groups = () => {
       {loading ? (
         <div className="flex items-center justify-center">
           {" "}
-          <ClipLoader
-            loading={loading}
-            size={20}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-            color="#7e7f81"
-          />
+          <Loading loading={loading} />
         </div>
       ) : (
         <div>

@@ -17,6 +17,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import UserModal from "../modal/UserModal";
 import Overlay from "../overlay/overlay";
+import { BiSort } from "react-icons/bi";
 
 const Tables = ({ search }) => {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -28,6 +29,7 @@ const Tables = ({ search }) => {
   const [activeId, setActiveId] = useState();
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState();
+  const [order, setOrder] = useState("ASC")
   // get user about
   const notifyActive = () =>
     toast.success("user active!", { position: "top-right" });
@@ -46,9 +48,10 @@ const Tables = ({ search }) => {
         return data;
       });
       setUser(docs);
+      sortTable()
       setLoading(false);
     })();
-  }, [deleteId, activeId, id]);
+  }, [deleteId, activeId, id, order]);
 
   //  delete user
   const handleDeletingTicket = async (id) => {
@@ -95,11 +98,49 @@ const Tables = ({ search }) => {
     setOpen(!open);
     setSearchParams({ user: id });
     setUserId(id);
+    // nc(col) => {
+    //   let sortedProducts = [...user];
+    //   sortedProducts.sort((a, b) => {
+    //     if (a[col] < b[col]) {
+    //       return col === 'ascending' ? -1 : 1;
+    //     }
+    //     if (a[col] > b[col]) {
+    //       return col === 'ascending' ? 1 : -1;
+    //     }
+    //     return 0;
+    //   });
+    // }
+  }
+  const sortTable = async () => {
+    const userCol = collection(db, "users");
+    const userDocs = await getDocs(userCol);
+
+    let userData = [];
+    userDocs.forEach((doc) => {
+      userData.push({ id: doc.id, ...doc.data() });
+    });
+
+    userData.sort((a, b) => {
+      const comparison = a.name.localeCompare(b.name);
+      return order === "ASC" ? comparison : -comparison;
+    });
+
+    setUser(userData);
+  }
+
+  const toggleOrder = () => {
+    setOrder(order === "ASC" ? "DESC" : "ASC");
   };
 
   // one user getData function
   return (
     <>
+
+      <div className="sortable">
+        <div className="border border-slate-400 w-10 h-10 flex justify-center items-center cursor-pointer rounded-md">
+          <BiSort onClick={() => toggleOrder()} />
+        </div>
+      </div>
       {open ? (
         <UserModal open={open} setOpen={setOpen} userId={userId}>
           {loading ? (
@@ -117,113 +158,94 @@ const Tables = ({ search }) => {
         </UserModal>
       ) : false}
       {open ? <Overlay open={open} setOpen={setOpen} /> : false}
-      {loading ? (
-        <div className="flex items-center justify-center">
-          {" "}
-          <ClipLoader
-            loading={loading}
-            size={20}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-            color="#7e7f81"
-          />
-        </div>
-      ) : (
-        <div>
-          {user.length === 0 ? (
-            <h2
-              style={{
-                textAlign: "center",
-                color: "#ccc",
-                fontSize: "20px",
-              }}
-            >
-              empty data
-            </h2>
-          ) : (
-            <table id="table" className="table-hover table ">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>name</th>
-                  <th>email</th>
-                  <th>mobile</th>
-                  <th>CNIC</th>
-                  <th>For Course</th>
-                  <th>Pref Time</th>
-                  <th>Email status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {user
-                  .filter((users) => users.name.toLowerCase().includes(search))
-                  .map((item, index) => {
-                    return (
-                      <tr
-                        key={item.id}
-                        className={
-                          "even-class  font-normal text-[#398dc9]  dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
-                        }
-                      >
-                        <>
-                          <td>{index}</td>
+      <div>
+        {user.length === 0 ? (
+          <h2
+            style={{
+              textAlign: "center",
+              color: "#ccc",
+              fontSize: "20px",
+            }}
+          >
+            empty data
+          </h2>
+        ) : (
+          <table id="table" className="table-hover table ">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>name</th>
+                <th >email</th>
+                <th >mobile</th>
+                <th >CNIC</th>
+                <th >For Course</th>
+                <th >Pref Time</th>
+                <th >Email status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {user
+                .filter((users) => users.name.toLowerCase().includes(search))
+                .map((item, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      className={
+                        "even-class  font-normal text-[#398dc9]  dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
+                      }
+                    >
+                      <>
+                        <td>{index + 1}</td>
 
-                          <td
-                            className="cursor-pointer select-none"
-                            onClick={() => openModal(item.id)}
+                        <td
+                          className="cursor-pointer select-none"
+                          onClick={() => openModal(item.id)}
+                        >
+                          {item.name}
+                        </td>
+                        <td ></td>
+                        <td>{item.Mobile}</td>
+                        <td>{item.cninc}</td>
+                        <td>{item.Course}</td>
+                        <td>{item.PrefferedTime}</td>
+                        <td>
+                          <span
+                            className="cursor-pointer "
+                            onClick={() => emailStatus(item.id)}
                           >
-                            {item.name}
-                          </td>
-                          <td>{item.Email}</td>
-                          <td>{item.Mobile}</td>
-                          <td>{item.cninc}</td>
-                          <td>{item.Course}</td>
-                          <td>{item.PrefferedTime}</td>
-                          <td>
-                            <span
-                              className="cursor-pointer "
-                              onClick={() => emailStatus(item.id)}
-                            >
-                              {loading ? (
-                                <ClipLoader
-                                  loading={loading}
-                                  size={20}
-                                  aria-label="Loading Spinner"
-                                  data-testid="loader"
-                                  color="#7e7f81"
-                                />
-                              ) : item.active ? (
-                                "active"
-                              ) : (
-                                "no active"
-                              )}
-                              {/* */}
-                            </span>
-                          </td>
-                          <td className="td_flex">
-                            <span className="icons">
-                              <Link to={`/users-form/${item.id}`}>
-                                <LiaEdit />
-                              </Link>
-                            </span>
-                            <span className="icons">
-                              {
-                                <MdDelete
-                                  onClick={() => handleDeletingTicket(item.id)}
-                                />
-                              }
-                            </span>
-                          </td>
-                        </>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          )}
-        </div>
-      )}
+                            {loading ? (
+                              ""
+                            ) : item.active ? (
+                              "active"
+                            ) : (
+                              "no active"
+                            )}
+                            {/* */}
+                          </span>
+                        </td>
+                        <td className="td_flex">
+                          <span className="icons">
+                            <Link to={`/users-form/${item.id}`}>
+                              <LiaEdit />
+                            </Link>
+                          </span>
+                          <span className="icons">
+                            {
+                              <MdDelete
+                                onClick={() => handleDeletingTicket(item.id)}
+                              />
+                            }
+                          </span>
+                        </td>
+                      </>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        )}
+      </div>
     </>
   );
 };

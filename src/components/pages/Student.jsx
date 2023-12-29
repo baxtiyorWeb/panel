@@ -11,7 +11,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../setup/firebase/firebase";
-import { BiLike } from "react-icons/bi";
+import { BiLike, BiSort } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import ClipLoader from "react-spinners/ClipLoader";
 import { LiaSpinnerSolid } from "react-icons/lia";
@@ -30,6 +30,7 @@ export const Student = () => {
   const [likeId, setlikeId] = useState();
   const [like, setLike] = useState(true);
   const [loading, setloading] = useState(false);
+  const [order, setOrder] = useState("ASC")
   let totalPage = Math.ceil(getLength() / limit);
   const notify = () => toast.success("delete form!", { position: "top-right" });
 
@@ -71,8 +72,9 @@ export const Student = () => {
       });
       setStudents(docs);
       setloading(false);
+      sortTable()
     })();
-  }, [deleteId, like, likeId]);
+  }, [deleteId, like, likeId, order]);
 
   const handleDeletingTicket = async (id) => {
     setloading(true);
@@ -97,6 +99,29 @@ export const Student = () => {
   // if(students.length === 0){
   //   return <>epmty data</>
   // }
+
+  const sortTable = async () => {
+    const userCol = collection(db, "students");
+    const userDocs = await getDocs(userCol);
+
+    let userData = [];
+    userDocs.forEach((doc) => {
+      userData.push({ id: doc.id, ...doc.data() });
+    });
+
+    userData.sort((a, b) => {
+      const comparison = a.name.localeCompare(b.name);
+      return order === "ASC" ? comparison : -comparison;
+    });
+
+    setStudents(userData);
+  }
+
+  const toggleOrder = () => {
+    setOrder(order === "ASC" ? "DESC" : "ASC");
+  };
+
+
   const userss = useGetUser();
   return (
     <div className={"dark:bg-[#353C48]"}>
@@ -122,6 +147,11 @@ export const Student = () => {
               className={"dark:bg-[#3B4452] border border-cyan-600"}
               onChange={(e) => setSearch(e.target.value)}
             />
+          </div>
+        </div>
+        <div className="sortable">
+          <div className="border border-slate-400 w-10 h-10 flex justify-center items-center cursor-pointer rounded-md">
+            <BiSort onClick={() => toggleOrder()} />
           </div>
         </div>
         <div id="demo">
