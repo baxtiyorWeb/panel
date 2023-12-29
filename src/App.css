@@ -1,4 +1,3 @@
-
 body {
   width: 100%;
   height: 100%;
@@ -374,19 +373,27 @@ body {
   transition: 0.3s ease;
 }
 
-.even-class:nth-child(even):hover {
-  scale: 1.01;
-  -webkit-box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
+.even-class:nth-child(even) {
+  /* scale: 1.01; */
+  /* -webkit-box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
   -moz-box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
-  box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
+  box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37); */
+  margin-top: 10px !important ;
+  border: 1px solid slategray;
 }
 
-.even-class:nth-child(odd):hover {
-  scale: 1.01;
-  -webkit-box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
+table {
+  border-radius: 10px !important  ;
+}
+
+.even-class:nth-child(odd) {
+  /* scale: 1.01; */
+  /* -webkit-box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
   -moz-box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
   box-shadow: 1px 6px 6px -4px rgba(21, 21, 21, 0.37);
-  background: #fafafa;
+  background: #fafafa; */
+  border: 1px solid slategray;
+  margin-bottom: 10px !important;
 }
 
 .-g-button {

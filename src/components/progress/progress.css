@@ -89,6 +89,11 @@
 #demo {
   /* margin: 20px auto; */
   width: 100%;
+  border-radius: 10px;
+  /* border: 1px solid slategray; */
+  /* overflow: hidden; */
+  /* padding-bottom: 10px; */
+  /* padding-top: 10px; */
 }
 
 #demo h1 {
@@ -113,6 +118,9 @@
 .table {
   width: 100%;
   max-width: 100%;
+  padding-top: 10px;
+  border: 1px solid slategray;
+  margin-top: 20px;
 }
 
 .table > thead > tr > th,
@@ -128,6 +136,9 @@
   font-size: 15px;
   font-family: "Nunito Sans", sans-serif;
 }
+.table tbody tr td {
+  padding-top: 40px;
+}
 
 .table > caption + thead > tr:first-child > th,
 .table > caption + thead > tr:first-child > td,
@@ -137,10 +148,15 @@
 .table > thead:first-child > tr:first-child > td {
   border-top: 0;
 }
-
-table tr:nth-child(even) {
-  background-color: #e7e9eb;
+th {
+  border-right: 1px solid slategray;
+  border-left: 1px solid slategray;
+  border-bottom: 1px solid slategray;
+  border-top: 1px solid slategray;
 }
+/* table tr:nth-child(even) {
+  background-color: #e7e9eb;
+} */
 
 table {
   border-collapse: collapse;

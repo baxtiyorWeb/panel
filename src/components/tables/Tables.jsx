@@ -6,6 +6,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   updateDoc,
 } from "firebase/firestore";
@@ -23,7 +24,7 @@ const Tables = ({ search }) => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [toggle, setToggle] = useState(false);
+  const [id, setId] = useState();
   const [activeId, setActiveId] = useState();
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState();
@@ -47,7 +48,7 @@ const Tables = ({ search }) => {
       setUser(docs);
       setLoading(false);
     })();
-  }, [deleteId, activeId]);
+  }, [deleteId, activeId, id]);
 
   //  delete user
   const handleDeletingTicket = async (id) => {
@@ -60,15 +61,34 @@ const Tables = ({ search }) => {
   // active or no-active
 
   const emailStatus = async (id) => {
-    setSearchParams({ userEditId: id });
-    setTimeout(() => {
-      setToggle(toggle ? notifyNoActive() && false : notifyActive() && true);
-    }, 100);
-    await updateDoc(doc(db, "users", id), {
-      active: toggle,
-    });
+    // setSearchParams({ userEditId: id });
+    // setTimeout(() => {
+    //   setToggle(!toggle);
+    // }, 100);
+    // setLoading(true)
+    // await updateDoc(doc(db, "users", id), {
+    //   active: toggle ? notifyActive() && false : notifyNoActive() && true
+    // });
+    // setLoading(false)
 
-    setActiveId(id);
+    const userRef = doc(db, "users", id)
+    const userSnapshot = await getDoc(userRef)
+
+    if (userSnapshot.exists()) {
+      setLoading(true)
+      const data = userSnapshot.data()
+      setTimeout((async () => {
+        const response = data.active
+        await updateDoc(doc(db, "users", id), {
+          active: !response
+        });
+      }), 100);
+      setId(response)
+      setLoading(false)
+
+
+    }
+
   };
   const userIds = searchParams.get("user");
   const openModal = (id) => {
@@ -143,7 +163,7 @@ const Tables = ({ search }) => {
                       <tr
                         key={item.id}
                         className={
-                          "even-class  font-normal text-[#398dc9] even:hover:bg-[#E7E9EB] dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
+                          "even-class  font-normal text-[#398dc9]  dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
                         }
                       >
                         <>
