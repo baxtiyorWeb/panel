@@ -47,7 +47,7 @@ const Teachers = () => {
         </Link>
       </div>
       {loading ? (
-        "loading"
+        <Loading loading={loading} />
       ) : user.length === 0 ? (
         navigate("/teachers/teachers-form")
       ) : (
@@ -63,10 +63,6 @@ const Teachers = () => {
               >
                 empty data
               </h2>
-            ) : loading ? (
-              <div className="flex items-center justify-center">
-                <Loading loading={loading} />
-              </div>
             ) : (
               <table
                 id="table"
@@ -108,18 +104,13 @@ const Teachers = () => {
                         <td>{item.semester}</td>
                         <td className={"td_flex"}>
                           <span className="icons">
-                            {loading && item.id ? (
-                              <Loading loading={loading} />
-                            ) : (
-                              <LiaEdit onClick={() => getId(item.id)} />
-                            )}
+                            <LiaEdit onClick={() => getId(item.id)} />
                           </span>
 
                           <span className="icons">
                             <MdDelete />
                           </span>
                           <span className="icons">
-                            <Loading loading={loading} />
                             <FaEye />
                           </span>
                           <span

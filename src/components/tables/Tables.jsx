@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import UserModal from "../modal/UserModal";
 import Overlay from "../overlay/overlay";
 import { BiSort } from "react-icons/bi";
+import { Loading } from "../Loading";
 
 const Tables = ({ search }) => {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -159,7 +160,7 @@ const Tables = ({ search }) => {
       ) : false}
       {open ? <Overlay open={open} setOpen={setOpen} /> : false}
       <div>
-        {user.length === 0 ? (
+        {loading ? <Loading loading={loading} /> : user.length === 0 ? (
           <h2
             style={{
               textAlign: "center",
@@ -169,7 +170,7 @@ const Tables = ({ search }) => {
           >
             empty data
           </h2>
-        ) : (
+        ) : loading ? <Loading loading={loading} /> : (
           <table id="table" className="table-hover table ">
             <thead>
               <tr>
