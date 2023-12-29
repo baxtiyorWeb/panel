@@ -8,8 +8,9 @@ export const Loading = ({ loading }) => {
         width={1300}
         height={400}
         viewBox="0 0 1200 400"
-        backgroundColor="#3B4452"
+        backgroundColor="#3b445283"
         foregroundColor="#343C48"
+        className="dark:bg-[#343c487b] "
         {...loading}
       >
         <circle cx="50" cy="75" r="30" width="300" />
