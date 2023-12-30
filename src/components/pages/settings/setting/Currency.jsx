@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./../../masters/master.css";
-import { enqueryList, getLength } from "../../../progress/data";
 import Pagination from "../../../pagination/Pagination";
 
 // eslint-disable-next-line react/prop-types

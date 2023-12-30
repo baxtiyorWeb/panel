@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getLength } from "../../progress/data";
 import { Link } from "react-router-dom";
 import Pagination from "../../pagination/Pagination";
 import { useBatchHook } from "../../../hooks/useBatchHook";
@@ -102,54 +101,54 @@ const Batches = () => {
                   <tbody>
                     {userss.user
                       ? batches.user
-                          .filter((users) =>
-                            users.batch_title.toLowerCase().includes(search)
-                          )
-                          .map((item, index) => {
-                            return (
-                              <tr
-                                key={index}
-                                className={
-                                  "even:dark:bg-[#313843] even-class dark:hover:bg-[#353C48]"
-                                }
-                              >
-                                <td>{index}</td>
-                                <td>
-                                  <Link
-                                    to={"#"}
-                                    className="text-[#6777EF] uppercase"
-                                  >
-                                    {item.batch_title}
+                        .filter((users) =>
+                          users.batch_title.toLowerCase().includes(search)
+                        )
+                        .map((item, index) => {
+                          return (
+                            <tr
+                              key={index}
+                              className={
+                                "even:dark:bg-[#313843] even-class dark:hover:bg-[#353C48]"
+                              }
+                            >
+                              <td>{index}</td>
+                              <td>
+                                <Link
+                                  to={"#"}
+                                  className="text-[#6777EF] uppercase"
+                                >
+                                  {item.batch_title}
+                                </Link>
+                              </td>
+                              <td>{item.course}</td>
+                              <td>{item.batch_time}</td>
+                              <td>{item.date[0]}</td>
+                              <td>{item.date[1]}</td>
+                              <td>{item.faculty}</td>
+                              <td>{item.faculty_agreed_fee} %</td>
+                              <td className={"td_flex"}>
+                                <span className="icons">
+                                  <Link to={`/batches/batch-form/${item.id}`}>
+                                    {<LiaEdit />}
                                   </Link>
-                                </td>
-                                <td>{item.course}</td>
-                                <td>{item.batch_time}</td>
-                                <td>{item.date[0]}</td>
-                                <td>{item.date[1]}</td>
-                                <td>{item.faculty}</td>
-                                <td>{item.faculty_agreed_fee} %</td>
-                                <td className={"td_flex"}>
-                                  <span className="icons">
-                                    <Link to={`/batches/batch-form/${item.id}`}>
-                                      {<LiaEdit />}
-                                    </Link>
-                                  </span>
-                                  <span
-                                    className="icons"
-                                    onClick={() =>
-                                      batches.likeHandleTicket(item.id)
-                                    }
-                                  >
-                                    <BiLike
-                                      style={{
-                                        color: !item.like ? "white" : "green",
-                                      }}
-                                    />
-                                  </span>
-                                </td>
-                              </tr>
-                            );
-                          })
+                                </span>
+                                <span
+                                  className="icons"
+                                  onClick={() =>
+                                    batches.likeHandleTicket(item.id)
+                                  }
+                                >
+                                  <BiLike
+                                    style={{
+                                      color: !item.like ? "white" : "green",
+                                    }}
+                                  />
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })
                       : userss.navigate("/login")}
                   </tbody>
                 </table>

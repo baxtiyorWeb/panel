@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-import { getLength } from "../progress/data";
 import Pagination from "../pagination/Pagination";
 import { useGetUser } from "../../hooks/useGetUser.js";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getLength } from "../../progress/data";
 import Pagination from "../../pagination/Pagination";
 import {
-  collection, deleteDoc, doc, getDocs, setDoc, updateDoc
+  collection, deleteDoc, doc, getDocs, updateDoc
 } from "firebase/firestore";
 import { db } from "../../../setup/firebase/firebase";
 import { LiaEdit } from "react-icons/lia";
@@ -140,66 +139,66 @@ const Active = () => {
               className="table table-hover table-mc-light-blue "
             >
               <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Reg.No</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>CNIC</th>
-                <th>Course</th>
-                <th>Batch</th>
-                <th>Action</th>
-              </tr>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Reg.No</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>CNIC</th>
+                  <th>Course</th>
+                  <th>Batch</th>
+                  <th>Action</th>
+                </tr>
               </thead>
               <tbody>
-              {students
-                .filter((users) => users.name.toLowerCase().includes(search))
-                .map((item, index) => {
-                  return (<tr
-                    key={item.id}
-                    className={"even:dark:bg-[#313843] even-class dark:hover:bg-[#353C48]"}
-                  >
-                    <td>{index}</td>
-                    <td>
-                      <Link>{item.name}</Link>
-                    </td>
-                    <td>{item.RegNo}</td>
-                    <td>{item.Email}</td>
-                    <td>{item.Mobile}</td>
-                    <td>{item.cninc}</td>
-                    <td>{item.Course}</td>
-                    <td>{item.Batch}</td>
-                    <td className={"td_flex"}>
-                                  <span
-                                    className="icons"
-                                    onClick={() => likeHandleTicket(item.id)}
-                                  >
-                                    <Link
-                                      to={`/students/students-form/${item.id}`}
-                                    >
-                                      <LiaEdit />
-                                    </Link>
-                                  </span>
-                      <span
-                        className="icons"
-                        onClick={() => likeHandleTicket(item.id)}
-                      >
-                                    {loading && item.id ? (<Loading loading={loading} />) : (<BiLike
-                                      style={{
-                                        color: !item.like ? "white" : "green"
-                                      }}
-                                    />)}
-                                  </span>
-                      <span
-                        className="icons"
-                        onClick={() => handleDeletingTicket(item.id)}
-                      >
-                                    <MdDelete />
-                                  </span>
-                    </td>
-                  </tr>);
-                })}
+                {students
+                  .filter((users) => users.name.toLowerCase().includes(search))
+                  .map((item, index) => {
+                    return (<tr
+                      key={item.id}
+                      className={"even:dark:bg-[#313843] even-class dark:hover:bg-[#353C48]"}
+                    >
+                      <td>{index}</td>
+                      <td>
+                        <Link>{item.name}</Link>
+                      </td>
+                      <td>{item.RegNo}</td>
+                      <td>{item.Email}</td>
+                      <td>{item.Mobile}</td>
+                      <td>{item.cninc}</td>
+                      <td>{item.Course}</td>
+                      <td>{item.Batch}</td>
+                      <td className={"td_flex"}>
+                        <span
+                          className="icons"
+                          onClick={() => likeHandleTicket(item.id)}
+                        >
+                          <Link
+                            to={`/students/students-form/${item.id}`}
+                          >
+                            <LiaEdit />
+                          </Link>
+                        </span>
+                        <span
+                          className="icons"
+                          onClick={() => likeHandleTicket(item.id)}
+                        >
+                          {loading && item.id ? (<Loading loading={loading} />) : (<BiLike
+                            style={{
+                              color: !item.like ? "white" : "green"
+                            }}
+                          />)}
+                        </span>
+                        <span
+                          className="icons"
+                          onClick={() => handleDeletingTicket(item.id)}
+                        >
+                          <MdDelete />
+                        </span>
+                      </td>
+                    </tr>);
+                  })}
               </tbody>
             </table>)) : (userss.navigate("/login"))}
           </div>)}

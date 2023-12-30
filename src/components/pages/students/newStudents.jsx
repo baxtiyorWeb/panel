@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getLength } from "../../progress/data";
 import { LiaEdit, LiaEye, LiaQuestionSolid } from "react-icons/lia";
 import { MdDelete } from "react-icons/md";
 import { LiaCheckSolid } from "react-icons/lia";
@@ -72,7 +71,7 @@ export const NewStudents = () => {
 
   const deleteNewStudent = async (id) => {
     setLoading(true)
-    const newStudentRef =  doc(db, "new-students", id)
+    const newStudentRef = doc(db, "new-students", id)
 
     await deleteDoc(newStudentRef)
     setLoading(false)

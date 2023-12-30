@@ -133,6 +133,17 @@ const Tables = ({ search }) => {
     setOrder(order === "ASC" ? "DESC" : "ASC");
   };
 
+  const searchTable = async (search) => {
+    const userRef = doc(db, 'users', search)
+    const userSnapshot = getDoc(userRef)
+
+    if ((await userSnapshot).exists) {
+      const data = (await userSnapshot).data
+      console.log(data)
+    }
+  }
+  searchTable()
+
   // one user getData function
   return (
     <>
