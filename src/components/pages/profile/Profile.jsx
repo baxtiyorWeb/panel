@@ -6,15 +6,16 @@ import { useParams, Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import { LiaSpinnerSolid } from "react-icons/lia";
-import { FaTelegram } from "react-icons/fa"
+import { FaTelegram } from "react-icons/fa";
 import useDeleteProfile from "../../../hooks/useDeleteProfile.js";
 import { SharedModal } from "../../modal/sharedModal.jsx";
 import Overlay from "../../overlay/overlay.jsx";
 import { db } from "../../../setup/firebase/firebase.jsx";
-import { Loading } from "./../../Loading.jsx"
-
+import { Loading } from "./../../Loading.jsx";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 // eslint-disable-next-line react/prop-types
-const Profile = () => {
+const Profile = ({ image }) => {
   const [tabItem, setTabItem] = useState(1);
   const [showPassword, setShowPassword] = useState(null);
   const [open, setOpen] = useState(false);
@@ -22,24 +23,21 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
-
   useEffect(() => {
     const getAllData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const docRef = doc(db, "students", params.id);
         const targetDoc = await getDoc(docRef);
         return { user: setData(targetDoc.data()) };
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
     getAllData();
   }, []);
-
-
 
   const useEdit = useDeleteProfile();
   function showPass() {
@@ -58,34 +56,65 @@ const Profile = () => {
 
   return (
     <>
-
       <Container>
         <div className="title">
           <h1>Profile</h1>
         </div>
         <div className="profile-wrapper select-none dark:bg-[#353C48] ">
           <div className="side-profile">
-            <div className="profile head dark:bg-[#353C48] relative">
+            <div className="profile head relative dark:bg-[#353C48]">
               <div className="user ">
-                <img src={data.img || "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"} alt="" />
+                <LazyLoadImage
+                  alt={"avatar"}
+                  height={"100px"}
+                  src={data.img}
+                  effect="opacity"
+                  width={"100px"}
+                  delayTime={1500}
+                />
+                {/* <img
+                  src={
+                    data.img ||
+                    "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+                  }
+                  alt=""
+                /> */}
                 <div className={"overflow-hidden"}>
                   <input
                     type="file"
                     id="user-img"
                     className={"input-file"}
                     onChange={(e) => useEdit.setFile(e.target.files[0])}
-                    disabled={useEdit.progress !== null && useEdit.progress < 100}
+                    disabled={
+                      useEdit.progress !== null && useEdit.progress < 100
+                    }
                   />
                 </div>
 
                 <label
                   htmlFor="user-img"
-                  className={"shadow-md pt-2 pb-1 px-3 cursor-pointer"}
+                  className={"cursor-pointer px-3 pb-1 pt-2 shadow-md"}
                 >
                   rasm kiritish{" "}
                 </label>
-                <div className={useEdit.progress !== null && useEdit.progress < 100 ? `border w-[150px] flex justify-between items-center` : "scale-0"}>
-                  {useEdit.progress <= 100 ? <div style={{ width: `${useEdit.progress}%`, backgroundColor: "white", height: '3px' }}></div> : ""}
+                <div
+                  className={
+                    useEdit.progress !== null && useEdit.progress < 100
+                      ? `flex w-[150px] items-center justify-between border`
+                      : "scale-0"
+                  }
+                >
+                  {useEdit.progress <= 100 ? (
+                    <div
+                      style={{
+                        width: `${useEdit.progress}%`,
+                        backgroundColor: "white",
+                        height: "3px",
+                      }}
+                    ></div>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <div className={"title_top"}>{"student"}</div>
@@ -94,7 +123,7 @@ const Profile = () => {
                 <button
                   onClick={() => setOpen(!open)}
                   className={
-                    "absolute right-0 bottom-0 m-3 text-[25px] bg-red-500 text-gray-300 shadow-md rounded-md"
+                    "absolute bottom-0 right-0 m-3 rounded-md bg-red-500 text-[25px] text-gray-300 shadow-md"
                   }
                 >
                   {<MdDelete />}
@@ -102,7 +131,7 @@ const Profile = () => {
                 {open && (
                   <SharedModal>
                     <h1
-                      className={"bg-[#FEEFB3] text-[#CFA85B] text-[25px] p-1 "}
+                      className={"bg-[#FEEFB3] p-1 text-[25px] text-[#CFA85B] "}
                     >
                       Are you sure you want to delete it?{" "}
                     </h1>
@@ -111,7 +140,7 @@ const Profile = () => {
                       type="text"
                       placeholder={useEdit.edit.name}
                       className={
-                        "dark:bg-transparent p-3 border border-gray-500 m-5"
+                        "m-5 border border-gray-500 p-3 dark:bg-transparent"
                       }
                       onChange={(e) => useEdit.setValue(e.target.value)}
                     />
@@ -156,12 +185,12 @@ const Profile = () => {
                   tabItem === 1 ? "tab-item-block" : "tab-item-block-hide"
                 }
               >
-                <div className="chart-progress  dark:bg-[#353C48] text-[#34395e] dark:text-[#EEE8CC] font-normal">
+                <div className="chart-progress  font-normal text-[#34395e] dark:bg-[#353C48] dark:text-[#EEE8CC]">
                   <div className="add-link mb-10 ">
                     <h1>Add Course Form</h1>
                     <Link to="/courses/courses">Students list</Link>
                   </div>
-                  <div className="text-[#000] text-[18px] dark:text-[#fef3b0] mt-5 mb-5">
+                  <div className="mb-5 mt-5 text-[18px] text-[#000] dark:text-[#fef3b0]">
                     Batch title
                   </div>
 
@@ -171,7 +200,7 @@ const Profile = () => {
                       <input
                         type="text"
                         placeholder="name"
-                        className="dark:bg-[#353C48] dark:border"
+                        className="dark:border dark:bg-[#353C48]"
                       />
                     </div>
                     <div className="name">
@@ -179,7 +208,7 @@ const Profile = () => {
                       <input
                         type="text"
                         placeholder="last name"
-                        className="dark:bg-[#353C48] dark:border"
+                        className="dark:border dark:bg-[#353C48]"
                       />
                     </div>
                     <div className="name">
@@ -187,7 +216,7 @@ const Profile = () => {
                       <input
                         type="text"
                         placeholder="admin@gmal.com"
-                        className="dark:bg-[#353C48] dark:border"
+                        className="dark:border dark:bg-[#353C48]"
                       />
                     </div>
                     <div className="name relative">
@@ -195,10 +224,10 @@ const Profile = () => {
                       <input
                         type={showPassword}
                         placeholder="password"
-                        className="dark:bg-[#353C48] dark:border"
+                        className="dark:border dark:bg-[#353C48]"
                       />
                       <div
-                        className="absolute right-4 top-[55px] cursor-pointer z-10"
+                        className="absolute right-4 top-[55px] z-10 cursor-pointer"
                         onClick={showPass}
                       >
                         {/* {icon} */}
@@ -209,30 +238,29 @@ const Profile = () => {
                       <input
                         type="text"
                         placeholder="name"
-                        className="dark:bg-[#353C48] dark:border"
+                        className="dark:border dark:bg-[#353C48]"
                       />
                     </div>
                     <div className="name">
                       <span>Duration type</span>
                     </div>
                   </div>
-
                 </div>
               </div>
               <div
                 className={
                   tabItem === 2
                     ? "tab-item-block "
-                    : "tab-item-block-hide chart-progress  dark:bg-[#353C48] text-[#34395e] dark:text-[#EEE8CC] font-normal"
+                    : "tab-item-block-hide chart-progress  font-normal text-[#34395e] dark:bg-[#353C48] dark:text-[#EEE8CC]"
                 }
               >
-                <div className="chart-progress  dark:bg-[#353C48] text-[#34395e] dark:text-[#EEE8CC] font-normal">
+                <div className="chart-progress  font-normal text-[#34395e] dark:bg-[#353C48] dark:text-[#EEE8CC]">
                   {loading ? (
                     <Loading loading={loading} />
                   ) : (
                     <table
                       id="table"
-                      className="table table-hover table-mc-light-blue"
+                      className="table-hover table-mc-light-blue table"
                     >
                       <thead>
                         <tr>
@@ -246,7 +274,7 @@ const Profile = () => {
                         <tr
                           key={data.id}
                           className={
-                            "even:dark:bg-[#313843]  even:hover:bg-[#E7E9EB] dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal"
+                            "font-normal  text-[#398dc9] even:hover:bg-[#E7E9EB] dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843]"
                           }
                         >
                           <td>{data.name}</td>
@@ -255,7 +283,7 @@ const Profile = () => {
                           <td className={"td_flex"}>
                             <span
                               className="icons"
-                            // onClick={() => likeHandleTicket(item.id)}
+                              // onClick={() => likeHandleTicket(item.id)}
                             >
                               <BiLike
                                 style={{
@@ -278,10 +306,10 @@ const Profile = () => {
                   )}
                 </div>
               </div>
-            </div >
-          </div >
-        </div >
-      </Container >
+            </div>
+          </div>
+        </div>
+      </Container>
     </>
   );
 };

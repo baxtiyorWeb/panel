@@ -8,12 +8,12 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../setup/firebase/firebase";
 import { LiaEdit } from "react-icons/lia";
 import { MdDelete, MdOutlineClose } from "react-icons/md";
-import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import UserModal from "../modal/UserModal";
 import Overlay from "../overlay/overlay";
@@ -30,14 +30,11 @@ const Tables = ({ search }) => {
   const [activeId, setActiveId] = useState();
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState();
-  const [order, setOrder] = useState("ASC")
+  const [order, setOrder] = useState("ASC");
   // get user about
-  const notifyActive = () =>
-    toast.success("user active!", { position: "top-right" });
-  const notifyNoActive = () =>
-    toast.success("user no active", { position: "top-right" });
   const notifyDelete = () =>
     toast.success("user delete", { position: "top-right" });
+
   useEffect(() => {
     (async () => {
       setLoading(true);
@@ -49,7 +46,7 @@ const Tables = ({ search }) => {
         return data;
       });
       setUser(docs);
-      sortTable()
+      sortTable();
       setLoading(false);
     })();
   }, [deleteId, activeId, id, order]);
@@ -65,53 +62,45 @@ const Tables = ({ search }) => {
   // active or no-active
 
   const emailStatus = async (id) => {
-    // setSearchParams({ userEditId: id });
-    // setTimeout(() => {
-    //   setToggle(!toggle);
-    // }, 100);
-    // setLoading(true)
-    // await updateDoc(doc(db, "users", id), {
-    //   active: toggle ? notifyActive() && false : notifyNoActive() && true
-    // });
-    // setLoading(false)
-
-    const userRef = doc(db, "users", id)
-    const userSnapshot = await getDoc(userRef)
+    const userRefs = doc(db, "users", id);
+    const userSnapshot = await getDoc(userRefs);
 
     if (userSnapshot.exists()) {
-      setLoading(true)
-      const data = userSnapshot.data()
-      setTimeout((async () => {
-        const response = data.active
+      setLoading(true);
+      const data = userSnapshot.data();
+      setTimeout(async () => {
+        const response = data.active;
         await updateDoc(doc(db, "users", id), {
-          active: !response
+          active: !response,
         });
-      }), 100);
-      setId(response)
-      setLoading(false)
+        setId(response);
+      }, 100);
 
+      if (data.active === false) {
+        await updateDoc(doc(db, "users", id), {
+          active: true,
+        });
+        console.log("1. active: true");
+        const userRef = collection(db, "new-students");
+        const response = setDoc(doc(userRef, id), {
+          ...data,
+        });
+        console.log("1. data update");
+        await deleteDoc(userRefs).then((res) => {
+          console.log(res);
+          console.log("1. user: delete");
+        });
+      }
 
+      setLoading(false);
     }
-
   };
   const userIds = searchParams.get("user");
   const openModal = (id) => {
     setOpen(!open);
     setSearchParams({ user: id });
     setUserId(id);
-    // nc(col) => {
-    //   let sortedProducts = [...user];
-    //   sortedProducts.sort((a, b) => {
-    //     if (a[col] < b[col]) {
-    //       return col === 'ascending' ? -1 : 1;
-    //     }
-    //     if (a[col] > b[col]) {
-    //       return col === 'ascending' ? 1 : -1;
-    //     }
-    //     return 0;
-    //   });
-    // }
-  }
+  };
   const sortTable = async () => {
     const userCol = collection(db, "users");
     const userDocs = await getDocs(userCol);
@@ -127,29 +116,20 @@ const Tables = ({ search }) => {
     });
 
     setUser(userData);
-  }
+  };
 
   const toggleOrder = () => {
     setOrder(order === "ASC" ? "DESC" : "ASC");
   };
 
-  const searchTable = async (search) => {
-    const userRef = doc(db, 'users', search)
-    const userSnapshot = getDoc(userRef)
-
-    if ((await userSnapshot).exists) {
-      const data = (await userSnapshot).data
-      console.log(data)
-    }
-  }
-  searchTable()
-
   // one user getData function
+
+  const activeUserDelete = async (id) => {};
+
   return (
     <>
-
       <div className="sortable">
-        <div className="border border-slate-400 w-10 h-10 flex justify-center items-center cursor-pointer rounded-md">
+        <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-slate-400">
           <BiSort onClick={() => toggleOrder()} />
         </div>
       </div>
@@ -168,10 +148,14 @@ const Tables = ({ search }) => {
             </>
           )}
         </UserModal>
-      ) : false}
+      ) : (
+        false
+      )}
       {open ? <Overlay open={open} setOpen={setOpen} /> : false}
       <div>
-        {loading ? <Loading loading={loading} /> : user.length === 0 ? (
+        {loading ? (
+          <Loading loading={loading} />
+        ) : user.length === 0 ? (
           <h2
             style={{
               textAlign: "center",
@@ -181,18 +165,20 @@ const Tables = ({ search }) => {
           >
             empty data
           </h2>
-        ) : loading ? <Loading loading={loading} /> : (
+        ) : loading ? (
+          <Loading loading={loading} />
+        ) : (
           <table id="table" className="table-hover table ">
             <thead>
               <tr>
                 <th>id</th>
                 <th>name</th>
-                <th >email</th>
-                <th >mobile</th>
-                <th >CNIC</th>
-                <th >For Course</th>
-                <th >Pref Time</th>
-                <th >Email status</th>
+                <th>email</th>
+                <th>mobile</th>
+                <th>CNIC</th>
+                <th>For Course</th>
+                <th>Pref Time</th>
+                <th>Email status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -216,7 +202,7 @@ const Tables = ({ search }) => {
                         >
                           {item.name}
                         </td>
-                        <td ></td>
+                        <td></td>
                         <td>{item.Mobile}</td>
                         <td>{item.cninc}</td>
                         <td>{item.Course}</td>
@@ -226,13 +212,11 @@ const Tables = ({ search }) => {
                             className="cursor-pointer "
                             onClick={() => emailStatus(item.id)}
                           >
-                            {loading ? (
-                              ""
-                            ) : item.active ? (
-                              "active"
-                            ) : (
-                              "no active"
-                            )}
+                            {loading
+                              ? ""
+                              : item.active
+                                ? "active"
+                                : "no active"}
                             {/* */}
                           </span>
                         </td>

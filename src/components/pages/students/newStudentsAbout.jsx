@@ -50,22 +50,14 @@ const NewStudentsAbout = () => {
   }, []);
 
   fetchData();
-  const userCollectionRef = collection(db, "/students");
+  const userCollectionRef = collection(db, "students");
 
   const toStudentsSend = async () => {
     if (!user.created) {
       setLoading(true);
       await addDoc(userCollectionRef, {
-        name: user.name,
-        fatherName: user.fatherName,
-        age: user.age,
-        Email: user.Email,
-        cninc: user.cninc,
-        Mobile: user.Mobile,
-        Course: user.Course,
-        PrefferedTime: "6/23/23",
-        date: "date",
-        created: created,
+        ...user
+        // created: created,
       });
       const theRef = doc(db, "courses", user.Course);
 

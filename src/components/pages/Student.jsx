@@ -19,6 +19,8 @@ import { useGetUser } from "../../hooks/useGetUser.js";
 import { Button } from "antd";
 import { toast } from "react-toastify";
 import { Loading } from "../Loading.jsx";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 // eslint-disable-next-line react/prop-types
 export const Student = () => {
@@ -30,7 +32,7 @@ export const Student = () => {
   const [likeId, setlikeId] = useState();
   const [like, setLike] = useState(true);
   const [loading, setloading] = useState(false);
-  const [order, setOrder] = useState("ASC")
+  const [order, setOrder] = useState("ASC");
   let totalPage = Math.ceil(getLength() / limit);
   const notify = () => toast.success("delete form!", { position: "top-right" });
 
@@ -72,7 +74,7 @@ export const Student = () => {
       });
       setStudents(docs);
       setloading(false);
-      sortTable()
+      sortTable();
     })();
   }, [deleteId, like, likeId, order]);
 
@@ -115,17 +117,16 @@ export const Student = () => {
     });
 
     setStudents(userData);
-  }
+  };
 
   const toggleOrder = () => {
     setOrder(order === "ASC" ? "DESC" : "ASC");
   };
 
-
   const userss = useGetUser();
   return (
     <div className={"dark:bg-[#353C48]"}>
-      <div className="chart-progress dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal">
+      <div className="chart-progress font-normal text-[#398dc9] dark:bg-[#353C48] dark:text-[#EEE8CC]">
         <div className="add-link">
           <h1>Enquiries</h1>
           <Link to="/students/addStudent">add students</Link>
@@ -144,13 +145,13 @@ export const Student = () => {
             <h4>Search:</h4>
             <input
               type="text"
-              className={"dark:bg-[#3B4452] border border-cyan-600"}
+              className={"border border-cyan-600 dark:bg-[#3B4452]"}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </div>
         <div className="sortable">
-          <div className="border border-slate-400 w-10 h-10 flex justify-center items-center cursor-pointer rounded-md">
+          <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-slate-400">
             <BiSort onClick={() => toggleOrder()} />
           </div>
         </div>
@@ -167,11 +168,12 @@ export const Student = () => {
                         textAlign: "center",
                         color: "#ccc",
                         fontSize: "20px",
-                      }}>
+                      }}
+                    >
                       empty data
                     </h2>
                   ) : loading ? (
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <ClipLoader
                         loading={loading}
                         size={20}
@@ -183,7 +185,8 @@ export const Student = () => {
                   ) : (
                     <table
                       id="table"
-                      className="table table-hover table-mc-light-blue">
+                      className="table-hover table-mc-light-blue table"
+                    >
                       <thead>
                         <tr>
                           <th>#</th>
@@ -201,18 +204,28 @@ export const Student = () => {
                       <tbody>
                         {students
                           .filter((users) =>
-                            users.name.toLowerCase().includes(search)
+                            users.name.toLowerCase().includes(search),
                           )
                           .map((item, index) => {
                             return (
                               <tr
                                 key={item.id}
                                 className={
-                                  "even:dark:bg-[#313843] even-class dark:hover:bg-[#353C48]"
-                                }>
+                                  "even-class even:dark:bg-[#313843] dark:hover:bg-[#353C48]"
+                                }
+                              >
                                 <td>{index}</td>
-                                <td >
-                                  <img className="w-[50px] h-[50px] rounded-full opacity-80 border  border-slate-400" src={`${item.img || "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"}`} alt="" />
+                                <td>
+                                  <LazyLoadImage
+                                    width={100}
+                                    height={100}
+                                    src={
+                                      item.img ||
+                                      "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+                                    }
+                                    effect="blur"
+                                    className="h-[50px] w-[50px] rounded-full border border-slate-400  opacity-80"
+                                  />
                                 </td>
                                 <td>
                                   <Link to={`/profile/${item.id}`}>
@@ -229,7 +242,8 @@ export const Student = () => {
                                 <td className={"td_flex"}>
                                   <span
                                     className="icons"
-                                    onClick={() => likeHandleTicket(item.id)}>
+                                    onClick={() => likeHandleTicket(item.id)}
+                                  >
                                     {loading && item.id ? (
                                       <LiaSpinnerSolid />
                                     ) : (
@@ -244,7 +258,8 @@ export const Student = () => {
                                     className="icons"
                                     onClick={() =>
                                       handleDeletingTicket(item.id)
-                                    }>
+                                    }
+                                  >
                                     <MdDelete />
                                   </span>
                                 </td>
@@ -258,7 +273,8 @@ export const Student = () => {
                   <div className={"flex justify-center"}>
                     <Button
                       className={"dark:text-[#fff]"}
-                      onClick={() => userss.navigate("/login")}>
+                      onClick={() => userss.navigate("/login")}
+                    >
                       login
                     </Button>
                   </div>

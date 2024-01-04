@@ -1,4 +1,10 @@
-import { arrayUnion, doc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import { useState } from "react";
 import { db } from "../../../setup/firebase/firebase";
 import { useNavigate } from "react-router-dom";
@@ -12,9 +18,7 @@ const AddGroup = () => {
     await setDoc(
       theRef,
       {
-        students: arrayUnion({
-          students: [],
-        }),
+        students: arrayUnion({}),
       },
       { merge: true },
     );

@@ -18,6 +18,7 @@ const AddForm = () => {
   const [Course, setCourse] = useState("");
   const [loading, setLoading] = useState(false);
   const [dateBirth, setDateBirth] = useState("");
+  const [jobs, setJobs] = useState("");
   const navigate = useNavigate();
   const userCollectionRef = collection(db, "users");
   const [time, setTime] = useState("");
@@ -25,6 +26,10 @@ const AddForm = () => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const user_about = useRealTimeDatabase();
+  const [study, setStudy] = useState("");
+  const { RangePicker } = DatePicker;
+  const [dates, setDates] = useState("");
+  const [selectedDays, setSelectedDays] = useState([]);
   async function sendForm(e) {
     e.preventDefault();
     setLoading(true);
@@ -34,10 +39,14 @@ const AddForm = () => {
       cninc: cninc,
       Mobile: Mobile,
       Course: Course,
+      jobs: jobs,
+      date: dates,
       edit: "LiaEdit",
       delete: "MdDelete",
       dateBirth: dateBirth,
       PrefferedTime: time,
+      // study: study,
+      selectedDays: selectedDays,
     });
     setLoading(false);
     navigate("/enquiries");
@@ -47,45 +56,70 @@ const AddForm = () => {
 
   const format = "HH:mm";
 
+  const weekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const toggleDay = (day) => {
+    if (selectedDays.includes(day)) {
+      // If the day is already selected, remove it from the array
+      setSelectedDays(
+        selectedDays.filter((selectedDay) => selectedDay !== day),
+      );
+    } else {
+      // If the day is not selected, add it to the array
+      setSelectedDays([...selectedDays, day]);
+    }
+  };
+
   return (
     <div>
       <div className="chart-progress relative font-normal text-[#34395e] dark:bg-[#353C48] dark:text-[#EEE8CC]">
         <form onSubmit={sendForm}>
           <div className="add-link">
-            <h1 className="font-normal">Enquiry Form</h1>
-            <Link to="/enquiries">Enquiries list</Link>
+            <h1 className="font-normal">so'rovlar </h1>
+            <Link to="/enquiries">so'rovlar ro'yxati</Link>
           </div>
           <div className="input-box">
             <div className="name">
-              <span>Name</span>
+              <span>F.I.O</span>
               <input
                 type="text"
                 placeholder="name"
                 className="dark:border dark:bg-[#353C48]"
                 id="newNotes"
                 onChange={(e) => setName(e.target.value)}
-                required={true}
+                required
               />
             </div>
             <div className="name">
-              <span>Father Name</span>
+              <span>Otasining yoki onasining ismi sharifi</span>
               <input
                 type="text"
                 placeholder="Father Name"
                 className="dark:border dark:bg-[#353C48]"
+                required
               />
             </div>
             <div className="name">
-              <span>Date of Birth</span>
+              <span>tug'ilgan sanasi </span>
               <DatePicker
                 onChange={(e) => setDateBirth(e.format("DD/MM/YYYY"))}
+                className="bg-transparent"
+                aria-required
               />
             </div>
             <div className="name">
-              <span>Email</span>
+              <span>telegramm raqami</span>
               <input
-                type="email"
-                placeholder="abc@gmail.com"
+                type="text"
+                placeholder="telegram raqami"
                 className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setEmail(e.target.value)}
                 required={true}
@@ -98,6 +132,16 @@ const AddForm = () => {
                 placeholder="33100-0000000-0"
                 className="dark:border dark:bg-[#353C48]"
                 onChange={(e) => setCninc(e.target.value)}
+                required={true}
+              />
+            </div>
+            <div className="name">
+              <span>ma'lumoti</span>
+              <input
+                type="text"
+                placeholder="masalan o'rta maxsus yoki oliy ma'lumotli"
+                className="dark:border dark:bg-[#353C48]"
+                onChange={(e) => setJobs(e.target.value)}
                 required={true}
               />
             </div>
@@ -143,6 +187,7 @@ const AddForm = () => {
                 format={format}
                 onChange={(e) => setTime(e.format("HH:mm A"))}
                 required={true}
+                className="bg-transparent"
               />
             </div>
             <div className="name">
@@ -193,6 +238,20 @@ const AddForm = () => {
                 </option>
               </select>
             </div>
+            <div className="name flex items-center  pt-9">
+              <RangePicker
+                size="large"
+                onChange={(values) => {
+                  setDates(
+                    values.map((item) => {
+                      console.log(dayjs(item).format("DD-MM-YYYY"));
+                      return dayjs(item).format("DD-MM-YYYY");
+                    }),
+                  );
+                }}
+                className="bg-transparent"
+              />
+            </div>
 
             <div className="name">
               <span>Course</span>
@@ -216,6 +275,24 @@ const AddForm = () => {
                 <option>Front end</option>
                 <option>Back end</option>
               </select>
+            </div>
+            <div className="name ">
+              <span>Semester</span>
+              <div className="check-name">
+                {weekdays.map((day, index) => (
+                  <label key={index}>
+                    <input
+                      type="checkbox"
+                      className="check-box"
+                      checked={selectedDays.includes(day)}
+                      onChange={() => toggleDay(day)}
+                    />
+                    {day}
+                  </label>
+                ))}
+              </div>
+              <span>Selected days: </span>
+              <p className="selected-days">{selectedDays.join(", ")}</p>
             </div>
           </div>
           <button

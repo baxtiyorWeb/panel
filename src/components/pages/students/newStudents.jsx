@@ -7,6 +7,7 @@ import { Loading } from "../../Loading.jsx";
 import Pagination from "../../pagination/Pagination.jsx";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../../../setup/firebase/firebase.jsx";
+import { getLength } from "./../../progress/data.js"
 
 export const NewStudents = () => {
   const [paramsQuery, setParamsQuery] = useSearchParams();
@@ -77,7 +78,6 @@ export const NewStudents = () => {
     setLoading(false)
   }
   return (
-    <>
       <div className="chart-progress  font-normal text-[#398dc9] dark:bg-[#353C48] dark:text-[#EEE8CC]">
         <div className="add-link">
           <h1>Student List</h1>
@@ -218,6 +218,5 @@ export const NewStudents = () => {
           />
         </div>
       </div>
-    </>
   );
 };

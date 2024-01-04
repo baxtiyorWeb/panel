@@ -133,11 +133,12 @@
   padding: 1rem;
   vertical-align: top;
   border-top: 0;
-  font-size: 15px;
+  font-size: 14px;
   font-family: "Nunito Sans", sans-serif;
 }
 .table tbody tr td {
-  padding-top: 40px;
+  padding-top: 30px;
+  padding-top: 30px;
 }
 
 .table > caption + thead > tr:first-child > th,
@@ -232,4 +233,11 @@ tbody tr {
 
 tbody tr td {
   padding: 10px;
+}
+
+.calendar td {
+  width: 50px;
+  height: 50px;
+  border: 1px solid slategray;
+  padding-bottom: -30px !important;
 }

@@ -10,6 +10,7 @@ import { MdDelete } from "react-icons/md";
 import { Loading } from "../Loading.jsx";
 import { SharedModal } from "../modal/sharedModal.jsx";
 import Overlay from "../overlay/overlay.jsx";
+import { getLength } from "./../progress/data.js"
 
 const Courses = () => {
   const [search, setSearch] = useState("");

@@ -91,22 +91,6 @@ export const SideBarLinks = ({ dark }) => {
             Yangi talabalar
           </MenuItem>
         </SubMenu>
-        <SubMenu
-          label="To'plamni boshqarish"
-          icon={<BsFillBookFill />}
-          className={"menus-style dark:text-cyan-50   hover:dark:bg-[#2A303A]"}
-        >
-          <MenuItem
-            component={
-              <NavLink
-                to={"/batches/batch"}
-                className={"dark:bg-[#3B4452] dark:text-[#e2e6ec]"}
-              ></NavLink>
-            }
-          >
-            Partiyalar
-          </MenuItem>
-        </SubMenu>
 
         {loading ? (
           <Loading loading={loading} />
@@ -241,18 +225,7 @@ export const SideBarLinks = ({ dark }) => {
         >
           To{"'"}lovni yig{""}ish
         </MenuItem>
-        <SubMenu
-          label="HRM"
-          icon={<FaSitemap />}
-          className={"menus-style dark:text-cyan-50   hover:dark:bg-[#2A303A]"}
-        >
-          <MenuItem
-            className={"menus-style dark:bg-[#3B4452] dark:text-[#e2e6ec]"}
-            component={<NavLink to={"/payroll"}></NavLink>}
-          >
-            Ish haqi
-          </MenuItem>
-        </SubMenu>
+
         <MenuItem
           icon={<BsCurrencyDollar />}
           className={"menus-style dark:text-cyan-50   hover:dark:bg-[#2A303A]"}
@@ -298,24 +271,7 @@ export const SideBarLinks = ({ dark }) => {
             Foydalanuvchilar{" "}
           </MenuItem>
         </SubMenu>
-        <SubMenu
-          label="Veb sozlamalari"
-          icon={<BiSolidCog />}
-          className={"menus-style dark:text-cyan-50   hover:dark:bg-[#2A303A]"}
-        >
-          <MenuItem
-            className="dark:bg-[#3B4452] dark:text-[#e2e6ec]"
-            component={<NavLink to={"/websettings/currency"}></NavLink>}
-          >
-            Tadbir
-          </MenuItem>
-          <MenuItem
-            className="dark:bg-[#3B4452] dark:text-[#e2e6ec]"
-            component={<NavLink to={"/websettings/users"}></NavLink>}
-          >
-            Foydalanuvchilar
-          </MenuItem>
-        </SubMenu>
+
       </Menu>
     </Sidebar>
   );

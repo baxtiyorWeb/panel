@@ -1,0 +1,22 @@
+/* Calendar.css */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(30, 1fr);
+  gap: 8px;
+}
+
+.day {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.present {
+  background-color: #aaffaa; /* Green background for present */
+}
+
+.absent {
+  background-color: #ffaaaa; /* Red background for absent */
+}

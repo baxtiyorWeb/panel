@@ -1,4 +1,5 @@
 import {
+  addDoc,
   arrayUnion,
   collection,
   doc,
@@ -14,12 +15,14 @@ import { FaPlus } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { uid } from "uid";
+import { Loading } from "../../Loading";
 
 const AddStudentInGroup = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const [id, setId] = useState();
   const param = useParams();
+  const uiid = uid();
   const notify = () =>
     toast.success(`bu o'quvchi ${param.id} guruxiga qo'shildi`, {
       position: "top-right",
@@ -42,7 +45,6 @@ const AddStudentInGroup = () => {
         return data;
       });
       setUser(docs);
-      console.log(id);
       setLoading(false);
     };
 
@@ -52,92 +54,40 @@ const AddStudentInGroup = () => {
     }, 1000);
   }, []);
 
-  const addGroup = async (
-    id,
-    name,
-    Course,
-    age,
-    Mobile,
-    cninc,
-    date,
-    date1,
-    semester,
-  ) => {
-    try {
-      const students = doc(db, "new-students", id);
-      const studentSnapshot = await getDoc(students);
+  const addGroup = async (id) => {
+    const groupRef = collection(db, "groups", param.id, "students");
+    const students = doc(db, "new-students", id);
+    const studentSnapshot = await getDoc(students);
+    const studentWithGetId = studentSnapshot.data();
+    const newStudentData = {
+      // ... your new student data
+      ...studentWithGetId,
+      students: [
+        {
+          isPresent: true,
+        },
+      ],
+      id: id,
+    };
 
-      if (studentSnapshot.exists()) {
-        const studentData = studentSnapshot.data();
+    const querySnapshot = await getDocs(groupRef);
 
-        // O'quvchini guruhga qo'shish uchun tekshirish
-        const groupRef = doc(db, "groups", param.id);
-        const groupSnapshot = await getDoc(groupRef);
+    let studentAlreadyExists = false;
 
-        if (groupSnapshot.exists()) {
-          const groupData = groupSnapshot.data();
-
-          // O'quvchi groupda mavjud emasligini tekshirish
-          const isStudentExistInGroup = groupData.students.find(
-            (student) => student.name === studentData.name,
-          );
-          const uiid = uid()
-          if (!isStudentExistInGroup) {
-            // O'quvchi guruhda mavjud emasligi uchun uni qo'shish
-            await setDoc(
-              groupRef,
-
-              {
-                students: arrayUnion({
-                  id: uiid,
-                  name: name,
-                  Course: Course,
-                  age: age,
-                  Mobile: Mobile,
-                  cninc: cninc,
-                  date: date,
-                  date1: date1,
-                  semester: semester,
-                  group: [
-                    {
-                      created: true,
-                      name: param.id,
-                    },
-                  ],
-                }),
-              },
-              { merge: true },
-            );
-            setId(id);
-            notify();
-
-            console.log("O'quvchi guruhga muvaffaqiyatli qo'shildi");
-          } else {
-            warning();
-          }
-        } else {
-          console.log("Guruh topilmadi");
-          // Agar guruh topilmagan bo'lsa kerakli harakatlar
-        }
-      } else {
-        console.log("O'quvchi topilmadi");
-        // Agar o'quvchi topilmagan bo'lsa kerakli harakatlar
+    querySnapshot.forEach((doc) => {
+      const existingStudent = doc.data();
+      if (existingStudent.id === newStudentData.id) {
+        studentAlreadyExists = true;
+        console.log(existingStudent.name);
       }
-      // let groupRef = doc(db, "groups", param.id);
-      setLoading(true);
+    });
 
-      // await updateDoc(groupRef, {});
-
-      // O'quvchini olish
-
-      await updateDoc(doc(db, "new-students", id), {
-        group: param.id,
-      });
-
-      console.log(id);
-      setLoading(false);
-    } catch (error) {
-      console.error("Xatolik yuz berdi:", error);
+    if (!studentAlreadyExists) {
+      // If the student doesn't exist, add them
+      const newStudentRef = await addDoc(groupRef, newStudentData);
+      notify();
+    } else {
+      warning();
     }
   };
 
@@ -146,13 +96,7 @@ const AddStudentInGroup = () => {
       {loading ? (
         <div className="flex items-center justify-center">
           {" "}
-          <ClipLoader
-            loading={loading}
-            size={20}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-            color="#7e7f81"
-          />
+          <Loading />
         </div>
       ) : (
         <div>
@@ -201,9 +145,7 @@ const AddStudentInGroup = () => {
                       <td>{item.date[0]}</td>
                       <td>{item.date[1]}</td>
                       <td>{item.semester}</td>
-                      <td className="group-name">
-                        {item.group}
-                      </td>
+                      <td className="group-name">{item.group}</td>
                       <td className="td_flex">
                         <span
                           className="icons"
@@ -215,8 +157,7 @@ const AddStudentInGroup = () => {
                               item.age,
                               item.Mobile,
                               item.cninc,
-                              item.date[0],
-                              item.date[1],
+                              item.date,
                               item.semester,
                             )
                           }
