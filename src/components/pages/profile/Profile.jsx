@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
-import { LiaSpinnerSolid } from "react-icons/lia";
 import { FaTelegram } from "react-icons/fa";
 import useDeleteProfile from "../../../hooks/useDeleteProfile.js";
 import { SharedModal } from "../../modal/sharedModal.jsx";
@@ -72,13 +71,7 @@ const Profile = ({ image }) => {
                   width={"100px"}
                   delayTime={1500}
                 />
-                {/* <img
-                  src={
-                    data.img ||
-                    "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
-                  }
-                  alt=""
-                /> */}
+
                 <div className={"overflow-hidden"}>
                   <input
                     type="file"
@@ -304,6 +297,13 @@ const Profile = ({ image }) => {
                       </tbody>
                     </table>
                   )}
+                  <ul>
+                    {loading
+                      ? ""
+                      : data.selectedDays.forEach((element) => {
+                          return <li>element</li>;
+                        })}
+                  </ul>
                 </div>
               </div>
             </div>

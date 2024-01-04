@@ -29,7 +29,7 @@ const Attendies = () => {
 
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = user.slice(indexOfFirstStudent, indexOfLastStudent);
+  let currentStudents = user.slice(indexOfFirstStudent, indexOfLastStudent);
 
   const groupsChange = async (e) => {
     setLoading(true);
@@ -91,35 +91,52 @@ const Attendies = () => {
         if (existingStudent.id === id) {
           const studentDocRef = doc(db, "groups", ids, "students", docs.id); // Create DocumentReference
           const AttendiesRef = collection(db, "attendies");
+          const AttendiesRefs = collection(db, "attendies");
 
-          async function tester() {
-            const querySnapshot = await getDocs(AttendiesRef);
+          // async function tester() {
+          //   const querySnapshot = await getDocs(AttendiesRef);
+          //   let studentAlreadyExists = false;
+          //   let existingStudent;
 
-            let studentAlreadyExists = false;
+          //   querySnapshot.forEach((doc) => {
+          //     const studentData = doc.data();
+          //     if (studentData.id === id) {
+          //       studentAlreadyExists = true;
+          //       existingStudent = studentData;
+          //       console.log(existingStudent.name);
+          //     }
+          //   });
 
-            querySnapshot.forEach((doc) => {
-              const existingStudent = doc.data();
-              if (existingStudent.id === id) {
-                studentAlreadyExists = true;
-                console.log(existingStudent.name);
-              }
+          //   if (!studentAlreadyExists) {
+          //     // If the student doesn't exist, add them
+          //     const newStudentRef = await addDoc(AttendiesRefs, {
+          //       ...existingStudent,
+          //       date: todayStr,
+          //       id: id, // Assuming id is a variable declared somewhere
+          //       isPresent: bool,
+          //     });
+          //     console.log(newStudentRef);
+          //   } else {
+          //     console.log("bor ekan");
+          //   }
+          // }
+
+          // tester();
+
+          const attenDanceStudentCalendar = async () => {
+            const attenDanceRef = collection(db, "attendies");
+
+            await addDoc(attenDanceRef, {
+              ...existingStudent,
+              students: arrayUnion({
+                date: todayStr,
+                id: docs.id,
+                isPresent: true,
+              }),
             });
-            if (!studentAlreadyExists) {
-              // If the student doesn't exist, add them
-              const newStudentRef = await addDoc(AttendiesRef, {
-                ...existingStudent,
-                students: arrayUnion({
-                  date: todayStr,
-                  id: docs.id,
-                  isPresent: bool,
-                }),
-              });
-              console.log(newStudentRef);
-            } else {
-              console.log("bor ekan");
-            }
-          }
-          tester();
+          };
+
+          attenDanceStudentCalendar();
 
           try {
             await setDoc(
@@ -130,7 +147,7 @@ const Attendies = () => {
                 students: arrayUnion({
                   date: todayStr,
                   id: docs.id,
-                  isPresent: bool === false ? true : false,
+                  isPresent: true,
                 }),
               },
               { merge: true },
@@ -225,7 +242,11 @@ const Attendies = () => {
             </thead>
             <tbody>
               {currentStudents
-                .filter((users) => users.name.toLowerCase().includes(search))
+                .filter(
+                  (users) =>
+                    users.name.toLowerCase().includes(search) ||
+                    users.Course.toLowerCase().includes(search),
+                )
                 .map((item, index) => {
                   return (
                     <tr
@@ -258,7 +279,7 @@ const Attendies = () => {
                             {/* */}
                           </span>
                         </td>
-                        <td className="td_flex">
+                        <td className="td_flex" key={item.id}>
                           <span className="icons">
                             <Link to={`/users-form/`}>
                               <LiaEdit />
@@ -272,12 +293,13 @@ const Attendies = () => {
                             }
                           </span>
 
-                          {item.students.map((item) => (
+                          {item.students.map((items) => (
                             <span
+                              key={items.isPresent}
                               className="icons mr-6 text-lg text-red-600"
                               onClick={() => handleButtonClick(item.id)}
                             >
-                              {item.isPresent ? "A" : "B"}
+                              {item.isPresent ? "A" : "P"}
                             </span>
                           ))}
                         </td>
@@ -300,7 +322,9 @@ const Attendies = () => {
           </span>
           <button
             onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentStudents.length <= user.length / 3}
+            disabled={
+              currentStudents.length <= user.length > 4 ? user.length / 3 : 1
+            }
           >
             Next
           </button>

@@ -59,6 +59,10 @@ const NewStudentsAbout = () => {
         ...user,
         created: created,
       });
+      await updateDoc(doc(db, "new-students", params.newId), {
+        created: true,
+        active: true,
+      });
       const theRef = doc(db, "courses", user.Course);
 
       await setDoc(
@@ -110,10 +114,6 @@ const NewStudentsAbout = () => {
       // await updateDoc(studentRef, {
       //   Students: arrayUnion(user.name),
       // });
-
-      await updateDoc(doc(db, "new-students", params.newId), {
-        created: true,
-      });
 
       setLoading(false);
     } else {

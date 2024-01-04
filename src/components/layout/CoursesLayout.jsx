@@ -6,15 +6,7 @@ import Container from "../shared/Container";
 export const CoursesLayout = () => {
   return (
     <Container>
-      <div className="around_one ">
-        <div className="around_user dark:text-[#96a2b4] text-[25px]">
-          <h2>Courses</h2>
-        </div>
-        <div className="box_2 dark:bg-[#353C48]  dark:text-[#EEE8CC] font-normal">
-          <Link>Dashboard</Link>/<Link>Batches</Link>/<Link>Temp</Link>
-        </div>
-      </div>
-      <div className="chart-progress dark:bg-[#353C48]">
+      <div className="chart-progress bg-[#F3F7F9] dark:bg-[#353C48]">
         <Outlet />
       </div>
     </Container>

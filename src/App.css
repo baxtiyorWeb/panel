@@ -512,8 +512,15 @@ table {
 }
 .check-name {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: flex-start;
+}
+.check-name label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px;
 }
 .check-box {
   appearance: none;
@@ -564,4 +571,8 @@ table {
 .selected-days {
   width: 50px;
   font-size: 18px;
+}
+
+.input-group {
+  padding: 30px;
 }
