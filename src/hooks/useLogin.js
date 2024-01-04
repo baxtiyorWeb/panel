@@ -11,7 +11,7 @@ export const useLogin = () => {
   const href = useHref();
   console.log(href);
   const signUp = () => {
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, "admin@gmail.com", "admin123./")
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
