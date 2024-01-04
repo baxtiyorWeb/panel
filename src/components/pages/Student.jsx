@@ -192,7 +192,6 @@ export const Student = () => {
                           <th>#</th>
                           <th>Avatar</th>
                           <th>Name</th>
-                          <th>Reg.No</th>
                           <th>Email</th>
                           <th>Mobile</th>
                           <th>CNIC</th>
@@ -233,7 +232,6 @@ export const Student = () => {
                                   </Link>
                                 </td>
 
-                                <td>{item.RegNo}</td>
                                 <td>{item.Email}</td>
                                 <td>{item.Mobile}</td>
                                 <td>{item.cninc}</td>
