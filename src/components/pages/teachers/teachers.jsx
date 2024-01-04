@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../../setup/firebase/firebase";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { FaEye, FaPlus } from "react-icons/fa";
 const Teachers = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
+  const [id, setId] = useState();
   const userss = useGetUser();
   const navigate = useNavigate();
   useEffect(() => {
@@ -27,7 +28,7 @@ const Teachers = () => {
       setUser(docs);
       setLoading(false);
     })();
-  }, []);
+  }, [id]);
 
   const getId = (id) => {
     console.log(id);
@@ -36,6 +37,13 @@ const Teachers = () => {
   function getID(id) {
     navigate(`/teachers/add-group/${id}`);
   }
+  const deleteTeacher = async (id) => {
+    const teachersRef = doc(db, "teachers", id);
+    setLoading(true);
+    await deleteDoc(teachersRef);
+    setId(id);
+    setLoading(false);
+  };
   return (
     <div>
       <div className="flex items-center justify-end ">
@@ -107,7 +115,10 @@ const Teachers = () => {
                             <LiaEdit onClick={() => getId(item.id)} />
                           </span>
 
-                          <span className="icons">
+                          <span
+                            className="icons"
+                            onCanPlay={() => deleteTeacher(item.id)}
+                          >
                             <MdDelete />
                           </span>
                           <span className="icons">

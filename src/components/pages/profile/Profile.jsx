@@ -297,11 +297,21 @@ const Profile = ({ image }) => {
                       </tbody>
                     </table>
                   )}
+                  <h1 className="mb-3 mt-6 border-b border-b-slate-500">
+                    dars kunlari
+                  </h1>
                   <ul>
                     {loading
-                      ? ""
-                      : data.selectedDays.forEach((element) => {
-                          return <li>element</li>;
+                      ? "loading ... "
+                      : data?.selectedDays?.map((element, index) => {
+                          return (
+                            <li
+                              key={index}
+                              className="border p-3 hover:bg-slate-100"
+                            >
+                              {element}
+                            </li>
+                          );
                         })}
                   </ul>
                 </div>

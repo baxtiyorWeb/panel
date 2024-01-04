@@ -298,7 +298,6 @@ const AddForm = () => {
                         className="check-box"
                         checked={selectedDays.includes(day)}
                         onChange={() => toggleDay(day)}
-                        required
                       />
                       {day}
                     </label>

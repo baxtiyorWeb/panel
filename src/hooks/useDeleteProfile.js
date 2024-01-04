@@ -35,7 +35,6 @@ const useDeleteProfile = () => {
     const getAllData = async () => {
       const docRef = doc(db, "students", params.id);
       const targetDoc = await getDoc(docRef);
-      console.log(targetDoc.data());
       return { user: setEdit(targetDoc.data()) };
     };
 
