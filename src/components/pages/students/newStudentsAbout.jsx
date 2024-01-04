@@ -56,8 +56,8 @@ const NewStudentsAbout = () => {
     if (!user.created) {
       setLoading(true);
       await addDoc(userCollectionRef, {
-        ...user
-        // created: created,
+        ...user,
+        created: created,
       });
       const theRef = doc(db, "courses", user.Course);
 

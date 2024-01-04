@@ -107,10 +107,10 @@ export const SideBarLinks = ({ dark }) => {
             ) : data.length === 0 ? (
               <div className="flex h-[50px] justify-center dark:bg-[#3B4452]">
                 <Link
-                  to={"/students/add-new-student-form"}
+                  to={"/groups/groups-form/"}
                   className="flex w-full flex-col justify-center pl-10 hover:bg-slate-500"
                 >
-                  <span>gurux qo{"'"}shmoqchimisiz</span>
+                  <span>gurux mavjud emas</span>
                 </Link>
               </div>
             ) : loading ? (
@@ -136,7 +136,7 @@ export const SideBarLinks = ({ dark }) => {
             )}
             <div className="flex h-[50px] justify-center dark:bg-[#3B4452]">
               <Link
-                to={"/students/add-new-student-form"}
+                to={"/groups/groups-form/"}
                 className="flex w-full flex-col justify-center pl-10 hover:bg-slate-500"
               >
                 <span className="flex items-center justify-center">
@@ -271,7 +271,6 @@ export const SideBarLinks = ({ dark }) => {
             Foydalanuvchilar{" "}
           </MenuItem>
         </SubMenu>
-
       </Menu>
     </Sidebar>
   );
