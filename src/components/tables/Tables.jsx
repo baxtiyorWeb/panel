@@ -124,7 +124,12 @@ const Tables = ({ search }) => {
 
   // one user getData function
 
-  const activeUserDelete = async (id) => {};
+  const formatTimestamp = (timestamp) => {
+    const date = timestamp.toDate(); // Timestampni JavaScript Date obyektiga aylantirish
+    const formattedDate = date.toLocaleString(); // O'zingiz kerakli formatni tanlang
+
+    return formattedDate;
+  };
 
   return (
     <>
@@ -179,6 +184,7 @@ const Tables = ({ search }) => {
                 <th>For Course</th>
                 <th>Pref Time</th>
                 <th>Email status</th>
+                <th>kiritilgan sana</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -202,7 +208,7 @@ const Tables = ({ search }) => {
                         >
                           {item.name}
                         </td>
-                        <td></td>
+                        <td>{item.Email}</td>
                         <td>{item.Mobile}</td>
                         <td>{item.cninc}</td>
                         <td>{item.Course}</td>
@@ -220,6 +226,7 @@ const Tables = ({ search }) => {
                             {/* */}
                           </span>
                         </td>
+                        <td>{item.times_fields}</td>
                         <td className="td_flex">
                           <span className="icons">
                             <Link to={`/users-form/${item.id}`}>

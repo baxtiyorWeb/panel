@@ -196,7 +196,7 @@ export const Student = () => {
                           <th>Mobile</th>
                           <th>CNIC</th>
                           <th>Course</th>
-                          <th>Batch</th>
+                          <th>to'lov</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -216,8 +216,8 @@ export const Student = () => {
                                 <td>{index}</td>
                                 <td>
                                   <LazyLoadImage
-                                    width={100}
-                                    height={100}
+                                    width={50}
+                                    height={50}
                                     src={
                                       item.img ||
                                       "https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
@@ -236,7 +236,7 @@ export const Student = () => {
                                 <td>{item.Mobile}</td>
                                 <td>{item.cninc}</td>
                                 <td>{item.Course}</td>
-                                <td>{item.Batch}</td>
+                                <td>{item.payment} ming</td>
                                 <td className={"td_flex"}>
                                   <span
                                     className="icons"

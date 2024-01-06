@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Enquiries.css";
 import "react-toastify/dist/ReactToastify.css";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../setup/firebase/firebase";
 import ClipLoader from "react-spinners/ClipLoader";
 import { DatePicker, TimePicker } from "antd";
@@ -26,11 +26,20 @@ const AddForm = () => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const user_about = useRealTimeDatabase();
-  const [study, setStudy] = useState("");
   const { RangePicker } = DatePicker;
   const [dates, setDates] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
+
   async function sendForm(e) {
+    const currentDate = new Date();
+    const options = {
+      weekday: "long",
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    };
+
+    const formattedDate = currentDate.toLocaleDateString("uz-UZ", options);
     e.preventDefault();
     setLoading(true);
     await addDoc(userCollectionRef, {
@@ -45,9 +54,16 @@ const AddForm = () => {
       delete: "MdDelete",
       dateBirth: dateBirth,
       PrefferedTime: time,
-      // study: study,
       selectedDays: selectedDays,
+      payment: [
+        {
+          payment: true,
+          paid: 0,
+          paid_date: "",
+        },
+      ],
       created: false,
+      times_fields: formattedDate,
     });
     setLoading(false);
     navigate("/enquiries");

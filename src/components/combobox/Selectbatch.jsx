@@ -25,7 +25,7 @@ const Selectbatch = () => {
   return (
     <div className="w-full ">
       <button
-        className="w-full border h-[43px] text-left text-[#9CA3AF] rounded border-[#9CA3AF] p-[10px]"
+        className="h-[43px] w-full rounded border border-[#9CA3AF] p-[10px] text-left text-[#9CA3AF]"
         onClick={() => setOpen(open ? false : true)}
       >
         {localStorage.getItem("select-option")
@@ -36,7 +36,7 @@ const Selectbatch = () => {
         <div className="w-full  border p-1">
           <input
             type="text"
-            className="w-full border h-[43px] text-left text-[#9CA3AF] rounded bg-transparent border-[#9CA3AF] p-[10px] mt-1  "
+            className="mt-1 h-[43px] w-full rounded border border-[#9CA3AF] bg-transparent p-[10px] text-left text-[#9CA3AF]  "
             onChange={(e) => setSearch(e.target.value)}
             value={search}
           />
@@ -46,11 +46,11 @@ const Selectbatch = () => {
               .map((item, index) => (
                 <div key={index}>
                   <button
-                    className="w-full h-[43px] text-left pl-1 mt-0 mb-1 hover:bg-[#6777EF] hover:text-[#fff] rounded"
+                    className="mb-1 mt-0 h-[43px] w-full rounded pl-1 text-left hover:bg-[#6777EF] hover:text-[#fff]"
                     onClick={() =>
                       setOptions(
                         localStorage.setItem("select-option", item.value) !==
-                          setOpen(false)
+                          setOpen(false),
                       )
                     }
                   >

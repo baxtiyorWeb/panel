@@ -138,7 +138,6 @@
 }
 .table tbody tr td {
   padding-top: 30px;
-  padding-top: 30px;
 }
 
 .table > caption + thead > tr:first-child > th,
@@ -165,6 +164,7 @@ table {
 
 tbody tr {
   display: table-row;
+  padding: 0;
 }
 
 .table > tbody + tbody {
@@ -239,5 +239,4 @@ tbody tr td {
   width: 50px;
   height: 50px;
   border: 1px solid slategray;
-  padding-bottom: -30px !important;
 }

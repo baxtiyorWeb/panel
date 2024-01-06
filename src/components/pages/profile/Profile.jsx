@@ -1,6 +1,6 @@
 import Container from "../../shared/Container.jsx";
 import "./Profile.css";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
@@ -21,6 +21,16 @@ const Profile = ({ image }) => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [formattedValue, setFormattedValue] = useState("");
+
+  const addPay = async () => {
+    const payRef = doc(db, "students", params.id);
+    const response = await updateDoc(payRef, {
+      payment: formattedValue,
+    });
+
+    console.log("payment ..");
+  };
 
   useEffect(() => {
     const getAllData = async () => {
@@ -52,6 +62,26 @@ const Profile = ({ image }) => {
   function toggleTab(index) {
     setTabItem(index);
   }
+
+  const formatPayment = (inputValue) => {
+    // Faqat raqam va probel belgilarni qoldirish
+    const formattedInput = inputValue.replace(/[^\d\s]/g, "");
+
+    // Qiymatni raqamlar va probellar orasida ajratib olish
+    const parts = formattedInput.split(" ");
+
+    // Har bir partni bir-birini izlaydigan probellarga o'zgartirish
+    const formattedParts = parts.map((part, index) => {
+      // 3 raqamli bo'lgan partlarni probellarga o'zgartirish
+      if (index < parts.length - 1 && part.length === 3) {
+        return part + " ";
+      }
+      return part;
+    });
+
+    // Yangi formatga kiritilgan qiymatni o'zgartirib yozish
+    setFormattedValue(formattedParts.join(""));
+  };
 
   return (
     <>
@@ -260,6 +290,7 @@ const Profile = ({ image }) => {
                           <th>full name</th>
                           <th>Mobile</th>
                           <th>Email</th>
+                          <th>kiritilgan sana </th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -273,6 +304,7 @@ const Profile = ({ image }) => {
                           <td>{data.name}</td>
                           <td>{data.Mobile}</td>
                           <td>{data.Email}</td>
+                          <td>{data.times_fields}</td>
                           <td className={"td_flex"}>
                             <span
                               className="icons"
@@ -314,6 +346,20 @@ const Profile = ({ image }) => {
                           );
                         })}
                   </ul>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="rounded-3 ml-5 w-[300px] border border-slate-300 p-3
+                    text-[18px]
+               "
+                    placeholder="to'lov qilingan miqdorni kiriting"
+                    onChange={(e) => formatPayment(e.target.value)}
+                    value={formattedValue}
+                  />
+                  <button className="border p-3 text-[18px]" onClick={addPay}>
+                    send
+                  </button>
                 </div>
               </div>
             </div>
