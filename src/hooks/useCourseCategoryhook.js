@@ -14,6 +14,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 export const useCourseCategoryhook = () => {
   const courseRef = collection(db, "course_category");
   const [addCourse, setAddCourse] = useState("");
+  const [addCoursePrice, setAddCoursePrice] = useState("");
   const [data, setData] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -54,12 +55,15 @@ export const useCourseCategoryhook = () => {
 
   useEffect(() => {
     setAddCourse(courses.add_course);
+    setAddCoursePrice(courses.course_price);
   }, [courses]);
 
   const addCourseCategory = async () => {
     setLoading(true);
     await addDoc(courseRef, {
       add_course: addCourse,
+      course_price: addCoursePrice,
+      courseAddedTimeStamps: "",
     });
     setLoading(false);
     setAddCourse("");
@@ -85,8 +89,11 @@ export const useCourseCategoryhook = () => {
     setLoading(true);
     await updateDoc(doc(db, "course_category", editId), {
       add_course: addCourse,
+      course_price: addCoursePrice,
+      courseAddedTimeStamps: "",
     });
     setAddCourse("");
+    setAddCoursePrice("");
     setLoading(false);
     setModal(false);
   };
@@ -97,9 +104,11 @@ export const useCourseCategoryhook = () => {
     courseDelete,
     addCourse,
     setAddCourse,
+    setAddCoursePrice,
     loading,
     modal,
     addCourseCategory,
+    addCoursePrice,
     search,
     setSearch,
     data,

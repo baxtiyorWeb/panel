@@ -37,11 +37,11 @@ export const Input = () => {
       <div className="search-box">
         <input
           type="text"
-          className="input-type rounded-[5px] font-medium text-[18px] dark:bg-transparent dark:border dark:border-gray-600"
+          className="input-type rounded-[5px] text-[18px] font-medium outline-none dark:border dark:border-gray-600 dark:bg-transparent"
           placeholder="Search ..."
           onChange={searchInputEvent}
         />
-        <button onClick={() => setOpen(!open)}>
+        <button onClick={() => setOpen(!open)} className="outline-none">
           <LiaSearchSolid />
         </button>
       </div>
@@ -51,7 +51,7 @@ export const Input = () => {
         ? search && (
             <ul
               className={
-                "absolute w-[200px] h-[300px] border top-[65px] z-10 bg-[#e2e2e2] rounded-md shadow-2xl"
+                "dark:shadow-3xl absolute top-[65px] z-10 h-[350px] w-[200px] rounded-md border bg-[#e2e2e2] shadow-2xl dark:border-transparent dark:bg-[#3B4452]"
               }
             >
               {loading
@@ -70,9 +70,15 @@ export const Input = () => {
                     })
                     .map((item, index) => {
                       return (
-                        <li key={index} className={"p-5 border w-full"}>
+                        <li
+                          key={index}
+                          className={
+                            "flex w-full justify-center border-b border-slate-500 dark:hover:bg-[#475569]"
+                          }
+                        >
                           <Link
                             to={`profile/${item.id}`}
+                            className="h-full w-full p-3"
                             onClick={() => setOpen(!open)}
                           >
                             {item.name}

@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Enquiries.css";
 import "react-toastify/dist/ReactToastify.css";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../../setup/firebase/firebase";
 import ClipLoader from "react-spinners/ClipLoader";
 import { DatePicker, TimePicker } from "antd";
@@ -29,6 +34,7 @@ const AddForm = () => {
   const { RangePicker } = DatePicker;
   const [dates, setDates] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   async function sendForm(e) {
     const currentDate = new Date();
@@ -55,13 +61,7 @@ const AddForm = () => {
       dateBirth: dateBirth,
       PrefferedTime: time,
       selectedDays: selectedDays,
-      payment: [
-        {
-          payment: true,
-          paid: 0,
-          paid_date: "",
-        },
-      ],
+      payment: 0,
       created: false,
       times_fields: formattedDate,
     });
@@ -94,6 +94,21 @@ const AddForm = () => {
       setSelectedDays([...selectedDays, day]);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const colRef = collection(db, "course_category");
+      const snapshots = await getDocs(colRef);
+      const docs = snapshots.docs.map((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        return data;
+      });
+      setCourses(docs);
+      setLoading(false);
+    })();
+  }, []);
 
   return (
     <div>
@@ -268,26 +283,12 @@ const AddForm = () => {
                   onChange={(e) => setCourse(e.target.value)}
                   value={Course}
                 >
-                  <option></option>
-                  <option value={"Modern Web App Development"}>
-                    Modern Web App Development
-                  </option>
-                  <option value={"Android Application Development"}>
-                    Android Application Development
-                  </option>
-                  <option value={"Advanced Graphics Designing"}>
-                    Advanced Graphics Designing
-                  </option>
-                  <option value={"Microsoft Office Professional"}>
-                    Microsoft Office Professional
-                  </option>
-                  <option value={"Adobe Illustrator"}>Adobe Illustrator</option>
-                  <option value={"Testing MT 2"}>Testing MT 2</option>
-                  <option value={"Bootcamp"}>Bootcamp</option>
-                  <option value={"Android Test"}>Android Test</option>
-                  <option value={"digital marketing"}>digital marketing</option>
-                  <option value={"Front end"}>Front end</option>
-                  <option value={"Back end"}>Back end</option>
+                  <option value="">courslarni tanlang</option>
+                  {courses.map((item, index) => (
+                    <option key={index} value={`${item.add_course}`}>
+                      {item.add_course} {item.course_price}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="name flex items-center  pt-9">

@@ -28,18 +28,16 @@ const AddGroup = () => {
   return (
     <div className="chart-progress relative font-normal text-[#34395e] dark:bg-[#353C48] dark:text-[#EEE8CC]">
       <form className="input-box" onSubmit={addGroup}>
-        <div className="name">
-          <div className="relative left-[90%] mb-5 mt-5 text-2xl">
-            gurux nomi
-          </div>
+        <div className="flex flex-col items-center justify-center p-5">
+          <div className="relative  mb-5 mt-5 text-2xl">gurux nomi</div>
           <input
             type="text"
             placeholder="gurux nomi"
-            className="relative left-[50%] dark:border dark:bg-[#353C48]"
+            className="h-12 w-[500px] rounded-md border-slate-500 p-3 text-[18px] outline-none dark:border dark:bg-[#353C48]"
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <button className="absolute bottom-3 right-5 rounded-sm border px-5 py-2">
+        <button className="absolute bottom-[-10px] right-0 rounded-sm border border-slate-500 px-5 py-2">
           send
         </button>
       </form>

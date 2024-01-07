@@ -9,12 +9,12 @@ const CourseCategory = () => {
   return (
     <div>
       <div
-        className="around_one dark:border-b dark:border-b-[#3b4452] mb-5"
+        className="around_one mb-5 dark:border-b dark:border-b-[#3b4452]"
         style={{
           paddingBottom: "23px",
         }}
       >
-        <div className="around_user dark:text-[#96a2b4] text-[25px]">
+        <div className="around_user text-[25px] dark:text-[#96a2b4]">
           <h2>Courses</h2>
         </div>
         <div className="around_of  dark:bg-[#3B4452]">
@@ -22,28 +22,46 @@ const CourseCategory = () => {
           <Link to={"#"}>Temp</Link>
         </div>
       </div>
-      <div className="div-block dark:bg-[#353C48] dark:border dark:border-[#3b4452]">
+      <div className="div-block dark:border dark:border-[#3b4452] dark:bg-[#353C48]">
         <h2 className="title">Add Course categeory</h2>
         {/*<input type="text" placeholder="title" className={'dark:bg-transparent'}*/}
         {/*       onChange={(e) => setAddCourse(e.target.value)} value={addCourse}/>*/}
         <div>
           <div>
             {courses.modal ? (
-              <input
-                type="text"
-                placeholder={"edit"}
-                value={courses.addCourse || ""}
-                className={"dark:bg-transparent"}
-                onChange={(e) => courses.setAddCourse(e.target.value)}
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder={"kurs nomini tahrirlang"}
+                  value={courses.addCourse || ""}
+                  className={"dark:bg-transparent"}
+                  onChange={(e) => courses.setAddCourse(e.target.value)}
+                />
+                <input
+                  type="number"
+                  placeholder="kurs narxini yozing tahrirlang"
+                  className={"dark:bg-transparent"}
+                  onChange={(e) => courses.setAddCoursePrice(e.target.value)}
+                  value={courses.addCoursePrice || ""}
+                />
+              </div>
             ) : (
-              <input
-                type="text"
-                placeholder="add course title"
-                className={"dark:bg-transparent"}
-                onChange={(e) => courses.setAddCourse(e.target.value)}
-                value={courses.addCourse || ""}
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="kurs qo'shing"
+                  className={"dark:bg-transparent"}
+                  onChange={(e) => courses.setAddCourse(e.target.value)}
+                  value={courses.addCourse || ""}
+                />
+                <input
+                  type="number"
+                  placeholder="kurs narxini yozing"
+                  className={"dark:bg-transparent"}
+                  onChange={(e) => courses.setAddCoursePrice(e.target.value)}
+                  value={courses.addCoursePrice || ""}
+                />
+              </div>
             )}
           </div>
           <div>
@@ -74,7 +92,7 @@ const CourseCategory = () => {
             <h4>Search:</h4>
             <input
               type="text"
-              className={"dark:bg-[#3B4452] border border-cyan-600"}
+              className={"border border-cyan-600 dark:bg-[#3B4452]"}
               onChange={(e) => courses.setSearch(e.target.value)}
             />
           </div>
@@ -84,30 +102,32 @@ const CourseCategory = () => {
             <div className="table-responsive-vertical shadow-z-1">
               <table
                 id="table"
-                className="table table-hover table-mc-light-blue"
+                className="table-hover table-mc-light-blue table"
               >
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th> Title</th>
+                    <th> kurs nomi</th>
+                    <th> kurs narxi</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {courses.data
                     .filter((users) =>
-                      users.add_course.toLowerCase().includes(courses.search)
+                      users.add_course.toLowerCase().includes(courses.search),
                     )
                     .map((item, index) => {
                       return (
                         <tr
                           key={item.id}
                           className={
-                            "even:dark:bg-[#313843]  even:hover:bg-[#E7E9EB] dark:bg-[#353C48] text-[#398dc9] dark:text-[#EEE8CC] font-normal"
+                            "font-normal  text-[#398dc9] even:hover:bg-[#E7E9EB] dark:bg-[#353C48] dark:text-[#EEE8CC] even:dark:bg-[#313843]"
                           }
                         >
                           <td>{index}</td>
                           <td>{item.add_course}</td>
+                          <td>{item.course_price} ming</td>
 
                           <td
                             style={{

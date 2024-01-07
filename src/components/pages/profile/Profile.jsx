@@ -339,7 +339,7 @@ const Profile = ({ image }) => {
                           return (
                             <li
                               key={index}
-                              className="border p-3 hover:bg-slate-100"
+                              className="border-b border-slate-400 p-3 hover:bg-slate-100 dark:hover:bg-slate-600"
                             >
                               {element}
                             </li>
@@ -351,7 +351,7 @@ const Profile = ({ image }) => {
                   <input
                     type="text"
                     className="rounded-3 ml-5 w-[300px] border border-slate-300 p-3
-                    text-[18px]
+                    text-[18px] outline-none dark:bg-transparent
                "
                     placeholder="to'lov qilingan miqdorni kiriting"
                     onChange={(e) => formatPayment(e.target.value)}
